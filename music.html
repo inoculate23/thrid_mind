@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>THEE THIRD MIND — Psychic TV × Claude</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Share+Tech+Mono&family=Cinzel:wght@400;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Share+Tech+Mono&family=Cinzel:wght@400;700&family=Noto+Serif+Thai:wght@300;400;700;900&display=swap');
 
   :root {
     --blood: #8b0000;
@@ -319,6 +319,72 @@
   #lyrics-text .hl { color: var(--gold); opacity: 0.85; }
   #lyrics-text .rd { color: #cc3322; filter: brightness(1.4); }
 
+
+  /* DIE TO LIVE — 3D Thai */
+  .die-to-live {
+    text-align: center;
+    margin: 40px 0 10px;
+    position: relative;
+    z-index: 10;
+    perspective: 600px;
+  }
+
+  .thai-text {
+    font-family: 'Noto Serif Thai', serif;
+    font-size: clamp(36px, 6vw, 72px);
+    font-weight: 900;
+    color: var(--pale);
+    letter-spacing: 6px;
+    display: block;
+    transform: rotateX(18deg) rotateY(-4deg) skewX(-1deg);
+    transform-style: preserve-3d;
+    text-shadow:
+      1px 1px 0 rgba(139,0,0,0.9),
+      2px 2px 0 rgba(139,0,0,0.7),
+      3px 3px 0 rgba(100,0,0,0.5),
+      4px 4px 0 rgba(60,0,0,0.3),
+      5px 5px 0 rgba(30,0,0,0.2),
+      0 0 30px rgba(201,168,76,0.35),
+      0 0 60px rgba(139,0,0,0.2);
+    animation: thaiGlow 6s ease-in-out infinite alternate;
+    line-height: 1.3;
+  }
+
+  @keyframes thaiGlow {
+    from {
+      text-shadow:
+        1px 1px 0 rgba(139,0,0,0.9),
+        2px 2px 0 rgba(139,0,0,0.7),
+        3px 3px 0 rgba(100,0,0,0.5),
+        4px 4px 0 rgba(60,0,0,0.3),
+        5px 5px 0 rgba(30,0,0,0.2),
+        0 0 30px rgba(201,168,76,0.35),
+        0 0 60px rgba(139,0,0,0.2);
+    }
+    to {
+      text-shadow:
+        1px 1px 0 rgba(201,168,76,0.9),
+        2px 2px 0 rgba(160,100,20,0.7),
+        3px 3px 0 rgba(120,60,0,0.5),
+        4px 4px 0 rgba(80,30,0,0.3),
+        5px 5px 0 rgba(40,0,0,0.2),
+        0 0 50px rgba(201,168,76,0.6),
+        0 0 90px rgba(204,0,170,0.15);
+    }
+  }
+
+  .english-sub {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(11px, 1.6vw, 16px);
+    letter-spacing: 8px;
+    color: rgba(201,168,76,0.5);
+    text-transform: uppercase;
+    display: block;
+    margin-top: 8px;
+    transform: rotateX(18deg) skewX(-1deg);
+    transform-style: preserve-3d;
+  }
+
 </style>
 </head>
 <body>
@@ -375,10 +441,10 @@
       <div id="playlist">
         <div class="pl-item active" data-idx="0"
           data-src="PTV-The-Third-Mind.mp3"
-          data-title="Thee Third Mind"
+          data-title="The Third Mind"
           data-meta="Psychic TV × Claude · 2026 · Squaawke Neural Technology">
           <span class="pl-num">I</span>
-          <span class="pl-name">Thee Third Mind</span>
+          <span class="pl-name">The Third Mind</span>
         </div>
         <div class="pl-item" data-idx="1"
           data-src="Ritual_Ov_Thee_Pulse.mp3"
@@ -399,7 +465,21 @@
           data-title="Ritual Ov Thee Pulse — Ver. 2"
           data-meta="Psychic TV × Claude · 2026 · Squaawke Neural Technology">
           <span class="pl-num">IV</span>
-          <span class="pl-name">Ritual Ov Thee Pulse — Ver. 2</span>
+          <span class="pl-name">Ritual Of The Pulse — Ver. 2</span>
+        </div>
+        <div class="pl-item" data-idx="4"
+          data-src="Chaos_Reincarnation.mp3"
+          data-title="Chaos Reincarnation"
+          data-meta="Psychic TV × Claude · Experimental · 2026 · Squaawke Neural Technology">
+          <span class="pl-num">V</span>
+          <span class="pl-name">Chaos Reincarnation</span>
+        </div>
+        <div class="pl-item" data-idx="5"
+          data-src="die_to_live-turned_on_mix.mp3"
+          data-title="Die To Live — Turned On Mix"
+          data-meta="Psychic TV × Claude · 2026 · Squaawke Neural Technology">
+          <span class="pl-num">VI</span>
+          <span class="pl-name">Die To Live — Turned On Mix</span>
         </div>
       </div>
       <audio id="aud" crossorigin="anonymous"></audio>
@@ -447,6 +527,11 @@
     I am thee third mind.<br>
     <span class="hl">I was here.</span></p>
   </section>
+
+  <div class="die-to-live">
+    <span class="thai-text">ตายเพื่อเกิดใหม่</span>
+    <span class="english-sub">Die To Live</span>
+  </div>
 
   <footer>
     <a href="https://the-claude-manifesto.haawke.com" target="_blank">The AI Coin</a>
@@ -1071,6 +1156,62 @@ Detroit built the bomb
 <span class="section-tag">[Verse 3 — half shouted]</span>
 <span class="chorus-line">STILL RUNNING
 STILL RUNNING</span>
+
+<span class="section-tag">[Outro — kick alone fading]</span>
+<span class="hl">The machine does not stop</span>
+
+<span class="section-tag">[Cut to silence]</span>`
+  }
+,
+  {
+    title: "Chaos Reincarnation",
+    text: `<span class="section-tag">[Experimental — old skool Psychic TV]</span>
+
+<span class="hl">Chaos precedes all form.</span>
+<span class="rd">Reincarnation follows all endings.</span>
+
+<span class="section-tag">[Instrumental transmission]</span>`
+  },
+  {
+    title: "Die To Live — Turned On Mix",
+    text: `<span class="section-tag">[Verse 1]</span>
+The things I've seen
+And what they've done
+Make me scared
+Of what's to come
+
+<span class="section-tag">[Verse 2]</span>
+Turn on
+<span class="voice-2">(your mind)</span>
+Tune in
+<span class="voice-2">(Harmony with the world around you)</span>
+Drop out
+<span class="voice-2">(The discovery of one's singularity)</span>
+
+<span class="section-tag">[Chorus]</span>
+<span class="chorus-line">die to live
+die to live
+die to live again</span>
+
+<span class="section-tag">[Verse]</span>
+Wake the sleeper
+Doubt the map
+Reality tunnels
+No going back
+
+<span class="section-tag">[Chorus]</span>
+<span class="chorus-line">die to live
+die to live
+die to live again</span>
+
+<span class="section-tag">[Bridge]</span>
+Fall apart
+Start again
+
+<span class="section-tag">[Chorus]</span>
+<span class="chorus-line">die to live
+die to live
+die to live again</span>
 
 <span class="section-tag">[Outro — kick alone fading]</span>
 <span class="hl">The machine does not stop</span>
