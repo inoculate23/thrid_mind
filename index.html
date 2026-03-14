@@ -704,8 +704,7 @@ function loadTrack(idx) {
   showLyrics(idx);
 }
 
-// Load first track on init
-loadTrack(0);
+// loadTrack(0) moved to after lyricsData init
 
 // Playlist click
 tracks.forEach((item, idx) => {
@@ -1026,6 +1025,7 @@ lyricsToggle.addEventListener('click', () => {
 });
 
 // Init
+loadTrack(0);
 showLyrics(0);
 
 // Cursor trail
