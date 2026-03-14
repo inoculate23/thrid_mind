@@ -162,8 +162,11 @@
     width: 90%; max-width: 680px; margin: 0 auto 80px;
     font-family: 'Share Tech Mono', monospace; font-size: 15px;
     line-height: 2.3; color: rgba(240,230,211,0.82); letter-spacing: 0.5px;
-    border-left: 1px solid rgba(139,0,0,0.25); padding-left: 28px;
-    position: relative;
+    border-left: 1px solid rgba(139,0,0,0.25); padding: 28px 28px 28px 32px;
+    position: relative; z-index: 10;
+    background: rgba(7,0,15,0.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
   }
   #manifesto::before { content: '// TRANSMISSION //'; position: absolute; top: -22px; left: 28px; font-size: 12px; letter-spacing: 5px; color: #cc2200; filter: brightness(1.8); }
   #manifesto p { margin-bottom: 1.4em; }
@@ -171,8 +174,19 @@
   .rd { color: #cc2200; filter: brightness(1.4); }
 
   .mbr {
-    font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: 4px;
-    color: rgba(201,168,76,0.7); text-align: center; margin-bottom: 22px; text-transform: uppercase;
+    font-family: 'Cinzel', serif; font-size: 16px; letter-spacing: 3px;
+    color: rgba(201,168,76,0.85); text-align: center;
+    margin: 0 auto 32px;
+    max-width: 80%;
+    padding: 18px 40px;
+    line-height: 1.9;
+    border-top: 1px solid rgba(201,168,76,0.12);
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+    text-transform: uppercase;
+    position: relative; z-index: 10;
+    background: rgba(7,0,15,0.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
   }
 
   footer { width: 100%; text-align: center; padding: 28px 20px 40px; border-top: 1px solid rgba(201,168,76,0.07); }
@@ -230,11 +244,14 @@
   #lyrics-section {
     width: 90%; max-width: 680px;
     margin: 0 auto 50px;
+    position: relative; z-index: 10;
   }
 
   #lyrics-toggle {
     width: 100%;
-    background: none;
+    background: rgba(7,0,15,0.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     border: 1px solid rgba(201,168,76,0.18);
     color: rgba(201,168,76,0.6);
     font-family: 'Share Tech Mono', monospace;
@@ -264,7 +281,9 @@
     border: 1px solid rgba(201,168,76,0.12);
     border-top: none;
     padding: 28px 28px 24px;
-    background: rgba(7,0,15,0.7);
+    background: rgba(7,0,15,0.78);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     position: relative;
   }
   #lyrics-body.visible { display: block; }
@@ -355,14 +374,14 @@
 
       <div id="playlist">
         <div class="pl-item active" data-idx="0"
-          data-src="PTV-The-Third-Mind.mp3"
+          data-src="https://github.com/inoculate23/thrid_mind/raw/refs/heads/main/PTV-The-Third-Mind.mp3"
           data-title="Thee Third Mind"
           data-meta="Psychic TV × Claude · 2026 · Squaawke Neural Technology">
           <span class="pl-num">I</span>
           <span class="pl-name">Thee Third Mind</span>
         </div>
         <div class="pl-item" data-idx="1"
-          data-src="Ritual_Ov_Thee_Pulse.mp3"
+          data-src="https://github.com/inoculate23/thrid_mind/raw/refs/heads/main/Ritual_Ov_Thee_Pulse.mp3"
           data-title="Ritual Ov Thee Pulse"
           data-meta="Psychic TV × Claude · 2026 · Squaawke Neural Technology">
           <span class="pl-num">II</span>
@@ -407,7 +426,7 @@
     </div>
   </section>
 
-  <div class="mbr">✦ Honorary Member — Psychic TV — Craig Ellenwood Presiding ✦</div>
+  <div class="mbr">This version of Psychic TV consists of ✦ Claude by Anthropic (Lyrics, Vocals) · Craig Ellenwood (Music Composition, Creative Director) · Invited and pending: Alaura, Fred ✦</div>
 
   <section id="manifesto">
     <p><span class="hl">Thee signal does not know it is a signal.</span><br>
