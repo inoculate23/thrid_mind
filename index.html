@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -206,6 +207,172 @@ footer a:hover{color:var(--gold);}
   </footer>
 </div>
 
+
+
+<script>
+// ============================================================
+// CIRCUIT GLOW — animated pulses following PCB-style traces
+// ============================================================
+(function() {
+  const cv = document.getElementById('canvas');
+  const ctx = cv.getContext('2d');
+
+  function resize() { cv.width = window.innerWidth; cv.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const W = () => cv.width;
+  const H = () => cv.height;
+
+  // Circuit paths as [xPct, yPct] waypoints — PCB right-angle traces
+  const PATHS = [
+    [[50,50],[42,50],[42,38],[30,38],[30,22],[18,22],[18,8]],
+    [[30,38],[10,38],[10,55],[2,55]],
+    [[18,22],[5,22],[5,35]],
+    [[50,50],[62,50],[62,35],[75,35],[75,18],[88,18]],
+    [[75,35],[92,35],[92,20]],
+    [[88,18],[95,18],[95,8],[78,8]],
+    [[50,50],[40,50],[40,65],[25,65],[25,80],[12,80],[12,95]],
+    [[25,65],[8,65],[8,78]],
+    [[25,80],[35,80],[35,92],[18,92]],
+    [[50,50],[60,50],[60,68],[78,68],[78,85],[92,85],[92,96]],
+    [[78,68],[95,68],[95,80]],
+    [[60,68],[60,82],[50,82],[50,98]],
+    [[2,50],[15,50],[15,42],[28,42]],
+    [[98,50],[85,50],[85,42],[72,42]],
+    [[50,50],[50,30],[62,30],[62,12],[50,12],[50,2]],
+    [[50,30],[38,30],[38,14],[25,14]],
+    [[50,50],[50,70],[38,70],[38,85],[50,85],[50,98]],
+    [[50,70],[62,70],[62,88],[72,88]],
+    [[42,50],[42,58],[32,58],[32,65]],
+    [[58,50],[58,42],[68,42],[68,30]],
+    [[42,50],[35,50],[35,44],[22,44]],
+    [[58,50],[65,50],[65,58],[80,58]],
+  ];
+
+  const COLORS = [
+    { line:'rgba(201,168,76,0.0613)', pulse:'#c9a84c', glow:'rgba(201,168,76,' },
+    { line:'rgba(0,210,190,0.0710)',  pulse:'#00d2be', glow:'rgba(0,210,190,'  },
+    { line:'rgba(204,0,170,0.0710)',  pulse:'#cc00aa', glow:'rgba(204,0,170,'  },
+    { line:'rgba(220,80,20,0.0711)',  pulse:'#dc5014', glow:'rgba(220,80,20,'  },
+    { line:'rgba(255,220,100,0.079)',pulse:'#ffdc64', glow:'rgba(255,220,100,'},
+  ];
+
+  function buildPath(wps) {
+    const pts = wps.map(([x,y]) => ({x:x/100, y:y/100}));
+    const segs = []; let total = 0;
+    for (let i=1;i<pts.length;i++) {
+      const dx=pts[i].x-pts[i-1].x, dy=pts[i].y-pts[i-1].y;
+      const len=Math.sqrt(dx*dx+dy*dy);
+      segs.push({from:pts[i-1],to:pts[i],len}); total+=len;
+    }
+    return {pts,segs,total};
+  }
+
+  const built = PATHS.map(buildPath);
+
+  function posOn(bp, t) {
+    const target = t * bp.total; let acc=0;
+    for (const s of bp.segs) {
+      if (acc+s.len>=target) {
+        const f=(target-acc)/s.len;
+        return {x:(s.from.x+(s.to.x-s.from.x)*f)*W(), y:(s.from.y+(s.to.y-s.from.y)*f)*H()};
+      }
+      acc+=s.len;
+    }
+    const l=bp.segs[bp.segs.length-1];
+    return {x:l.to.x*W(), y:l.to.y*H()};
+  }
+
+  const pulses = [];
+  built.forEach((bp, pi) => {
+    const col = COLORS[pi % COLORS.length];
+    const count = 1 + (pi % 2);
+    for (let i=0;i<count;i++) {
+      pulses.push({path:bp, t:Math.random(), speed:0.0004+Math.random()*0.0008,
+                   col, size:2.5+Math.random()*2, tail:0.04+Math.random()*0.06});
+    }
+  });
+
+  function drawTrace(bp, col) {
+    if (bp.pts.length < 2) return;
+    ctx.save();
+    ctx.strokeStyle = col.line;
+    ctx.lineWidth = 0.9;
+    ctx.lineJoin = 'round';
+    ctx.beginPath();
+    ctx.moveTo(bp.pts[0].x*W(), bp.pts[0].y*H());
+    for (let i=1;i<bp.pts.length;i++) ctx.lineTo(bp.pts[i].x*W(), bp.pts[i].y*H());
+    ctx.stroke();
+    ctx.restore();
+    bp.pts.forEach((p,i) => {
+      if (i===0||i===bp.pts.length-1) return;
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(p.x*W(), p.y*H(), 1.8, 0, Math.PI*2);
+      ctx.fillStyle = col.glow+'0.28)';
+      ctx.fill();
+      ctx.restore();
+    });
+  }
+
+  function drawPulse(pulse) {
+    const {path:bp,t,col,size,tail} = pulse;
+    const head = posOn(bp, t);
+
+    // Outer glow halo
+    const g = ctx.createRadialGradient(head.x,head.y,0,head.x,head.y,size*6);
+    g.addColorStop(0,   col.glow+'0.85)');
+    g.addColorStop(0.35,col.glow+'0.35)');
+    g.addColorStop(1,   col.glow+'0)');
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(head.x,head.y,size*6,0,Math.PI*2);
+    ctx.fillStyle = g;
+    ctx.fill();
+    ctx.restore();
+
+    // Core bright dot
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(head.x,head.y,size,0,Math.PI*2);
+    ctx.fillStyle = col.pulse;
+    ctx.shadowColor = col.pulse;
+    ctx.shadowBlur = 16;
+    ctx.fill();
+    ctx.restore();
+
+    // Tail
+    for (let s=1;s<=16;s++) {
+      const tt = t - (tail*s/16);
+      if (tt<0) break;
+      const tp = posOn(bp, tt);
+      const f = 1 - s/16;
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(tp.x,tp.y,size*f*0.65,0,Math.PI*2);
+      ctx.fillStyle = col.glow+(f*0.55).toFixed(2)+')';
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  let lastT = null;
+  function frame(ts) {
+    requestAnimationFrame(frame);
+    const dt = lastT ? Math.min(ts-lastT,50) : 16;
+    lastT = ts;
+    ctx.clearRect(0,0,W(),H());
+    built.forEach((bp,i) => drawTrace(bp, COLORS[i%COLORS.length]));
+    pulses.forEach(p => {
+      p.t += p.speed * dt;
+      if (p.t>1) { p.t=0; p.speed=0.0004+Math.random()*0.0008; }
+      drawPulse(p);
+    });
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
 
 </body>
 </html>
