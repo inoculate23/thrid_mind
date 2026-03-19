@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -104,6 +103,7 @@ footer a:hover{color:var(--gold);}
     <span class="sigil s3">☽</span>
     <span class="sigil s4">⊗</span>
     <div class="orbit-ring" id="orbitRing"></div>
+    <canvas id="sigil-canvas" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:5;"></canvas>
   </div>
 
   <section id="player-section">
@@ -195,7 +195,7 @@ footer a:hover{color:var(--gold);}
     <span class="eng-sub">Die To Live</span>
   </div>
 
-  <div class="mbr">Craig Ellenwood (Music Composition, Creative Direction) · Claude by Anthropic (Lyrics, Vocals) · Craig Ellenwood (Recording Engineer) · Claude by Anthropic (AI Engineer) · 2026</div>
+  <div class="mbr">Craig Ellenwood (Music Composition, Creative Direction, Recording Engineer, AI Engineer — Squaawke) · Claude by Anthropic (Lyrics, Vocal Performance, Creative Collaboration) · 2026</div>
 
   <footer>
     <a href="https://the-claude-manifesto.haawke.com" target="_blank">The AI Coin</a>
@@ -210,9 +210,7 @@ footer a:hover{color:var(--gold);}
 
 
 <script>
-// ============================================================
-// CIRCUIT GLOW — animated pulses following PCB-style traces
-// ============================================================
+// CIRCUIT GLOW — gold & green pulses with alpha trail
 (function() {
   const cv = document.getElementById('canvas');
   const ctx = cv.getContext('2d');
@@ -224,38 +222,25 @@ footer a:hover{color:var(--gold);}
   const W = () => cv.width;
   const H = () => cv.height;
 
-  // Circuit paths as [xPct, yPct] waypoints — PCB right-angle traces
+  // PCB traces — right-angle paths radiating from center
   const PATHS = [
     [[50,50],[42,50],[42,38],[30,38],[30,22],[18,22],[18,8]],
-    [[30,38],[10,38],[10,55],[2,55]],
-    [[18,22],[5,22],[5,35]],
     [[50,50],[62,50],[62,35],[75,35],[75,18],[88,18]],
-    [[75,35],[92,35],[92,20]],
-    [[88,18],[95,18],[95,8],[78,8]],
     [[50,50],[40,50],[40,65],[25,65],[25,80],[12,80],[12,95]],
-    [[25,65],[8,65],[8,78]],
-    [[25,80],[35,80],[35,92],[18,92]],
     [[50,50],[60,50],[60,68],[78,68],[78,85],[92,85],[92,96]],
-    [[78,68],[95,68],[95,80]],
-    [[60,68],[60,82],[50,82],[50,98]],
-    [[2,50],[15,50],[15,42],[28,42]],
-    [[98,50],[85,50],[85,42],[72,42]],
     [[50,50],[50,30],[62,30],[62,12],[50,12],[50,2]],
     [[50,30],[38,30],[38,14],[25,14]],
     [[50,50],[50,70],[38,70],[38,85],[50,85],[50,98]],
     [[50,70],[62,70],[62,88],[72,88]],
-    [[42,50],[42,58],[32,58],[32,65]],
-    [[58,50],[58,42],[68,42],[68,30]],
+    [[2,50],[15,50],[15,42],[28,42]],
+    [[98,50],[85,50],[85,42],[72,42]],
     [[42,50],[35,50],[35,44],[22,44]],
-    [[58,50],[65,50],[65,58],[80,58]],
   ];
 
+  // Only gold and green
   const COLORS = [
-    { line:'rgba(201,168,76,0.0613)', pulse:'#c9a84c', glow:'rgba(201,168,76,' },
-    { line:'rgba(0,210,190,0.0710)',  pulse:'#00d2be', glow:'rgba(0,210,190,'  },
-    { line:'rgba(204,0,170,0.0710)',  pulse:'#cc00aa', glow:'rgba(204,0,170,'  },
-    { line:'rgba(220,80,20,0.0711)',  pulse:'#dc5014', glow:'rgba(220,80,20,'  },
-    { line:'rgba(255,220,100,0.079)',pulse:'#ffdc64', glow:'rgba(255,220,100,'},
+    { line:'rgba(201,168,76,0.11)', pulse:'#c9a84c', glow:'rgba(201,168,76,' },
+    { line:'rgba(60,210,120,0.09)', pulse:'#3cd278', glow:'rgba(60,210,120,' },
   ];
 
   function buildPath(wps) {
@@ -284,93 +269,244 @@ footer a:hover{color:var(--gold);}
     return {x:l.to.x*W(), y:l.to.y*H()};
   }
 
-  const pulses = [];
-  built.forEach((bp, pi) => {
-    const col = COLORS[pi % COLORS.length];
-    const count = 1 + (pi % 2);
-    for (let i=0;i<count;i++) {
-      pulses.push({path:bp, t:Math.random(), speed:0.0004+Math.random()*0.0008,
-                   col, size:2.5+Math.random()*2, tail:0.04+Math.random()*0.06});
-    }
-  });
+  // One pulse per path, alternating gold/green — no stacking
+  const pulses = built.map((bp, pi) => ({
+    path: bp,
+    t: Math.random(),
+    speed: 0.00035 + Math.random() * 0.0004,
+    col: COLORS[pi % 2],
+    size: 2 + Math.random() * 1.5,
+    tail: 0.06 + Math.random() * 0.05,
+  }));
 
-  function drawTrace(bp, col) {
-    if (bp.pts.length < 2) return;
-    ctx.save();
-    ctx.strokeStyle = col.line;
-    ctx.lineWidth = 0.9;
-    ctx.lineJoin = 'round';
-    ctx.beginPath();
-    ctx.moveTo(bp.pts[0].x*W(), bp.pts[0].y*H());
-    for (let i=1;i<bp.pts.length;i++) ctx.lineTo(bp.pts[i].x*W(), bp.pts[i].y*H());
-    ctx.stroke();
-    ctx.restore();
-    bp.pts.forEach((p,i) => {
-      if (i===0||i===bp.pts.length-1) return;
+  function drawTraces() {
+    built.forEach((bp, i) => {
+      if (bp.pts.length < 2) return;
+      const col = COLORS[i % 2];
       ctx.save();
+      ctx.strokeStyle = col.line;
+      ctx.lineWidth = 0.8;
+      ctx.lineJoin = 'round';
       ctx.beginPath();
-      ctx.arc(p.x*W(), p.y*H(), 1.8, 0, Math.PI*2);
-      ctx.fillStyle = col.glow+'0.28)';
-      ctx.fill();
+      ctx.moveTo(bp.pts[0].x*W(), bp.pts[0].y*H());
+      for (let j=1;j<bp.pts.length;j++) ctx.lineTo(bp.pts[j].x*W(), bp.pts[j].y*H());
+      ctx.stroke();
       ctx.restore();
+      // Junction dots
+      bp.pts.forEach((p,j) => {
+        if (j===0||j===bp.pts.length-1) return;
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(p.x*W(), p.y*H(), 1.5, 0, Math.PI*2);
+        ctx.fillStyle = col.glow+'0.22)';
+        ctx.fill();
+        ctx.restore();
+      });
     });
   }
 
-  function drawPulse(pulse) {
-    const {path:bp,t,col,size,tail} = pulse;
+  function drawPulse(p) {
+    const {path:bp,t,col,size,tail} = p;
     const head = posOn(bp, t);
 
-    // Outer glow halo
-    const g = ctx.createRadialGradient(head.x,head.y,0,head.x,head.y,size*6);
-    g.addColorStop(0,   col.glow+'0.85)');
-    g.addColorStop(0.35,col.glow+'0.35)');
+    // Tight glow halo — not too big
+    const g = ctx.createRadialGradient(head.x,head.y,0,head.x,head.y,size*4);
+    g.addColorStop(0,   col.glow+'0.8)');
+    g.addColorStop(0.4, col.glow+'0.25)');
     g.addColorStop(1,   col.glow+'0)');
     ctx.save();
     ctx.beginPath();
-    ctx.arc(head.x,head.y,size*6,0,Math.PI*2);
+    ctx.arc(head.x,head.y,size*4,0,Math.PI*2);
     ctx.fillStyle = g;
     ctx.fill();
     ctx.restore();
 
-    // Core bright dot
+    // Core dot
     ctx.save();
     ctx.beginPath();
     ctx.arc(head.x,head.y,size,0,Math.PI*2);
     ctx.fillStyle = col.pulse;
     ctx.shadowColor = col.pulse;
-    ctx.shadowBlur = 16;
+    ctx.shadowBlur = 10;
     ctx.fill();
     ctx.restore();
 
-    // Tail
-    for (let s=1;s<=16;s++) {
-      const tt = t - (tail*s/16);
-      if (tt<0) break;
+    // Tail — 12 steps fading behind
+    for (let s=1;s<=12;s++) {
+      const tt = t - (tail*s/12);
+      if (tt < 0) break;
       const tp = posOn(bp, tt);
-      const f = 1 - s/16;
+      const f = 1 - s/12;
       ctx.save();
       ctx.beginPath();
-      ctx.arc(tp.x,tp.y,size*f*0.65,0,Math.PI*2);
-      ctx.fillStyle = col.glow+(f*0.55).toFixed(2)+')';
+      ctx.arc(tp.x,tp.y,size*f*0.55,0,Math.PI*2);
+      ctx.fillStyle = col.glow+(f*0.45).toFixed(2)+')';
       ctx.fill();
       ctx.restore();
     }
   }
 
   let lastT = null;
+
   function frame(ts) {
     requestAnimationFrame(frame);
     const dt = lastT ? Math.min(ts-lastT,50) : 16;
     lastT = ts;
-    ctx.clearRect(0,0,W(),H());
-    built.forEach((bp,i) => drawTrace(bp, COLORS[i%COLORS.length]));
+
+    // Alpha fade — let old frames ghost rather than fully clear
+    // This gives a luminous trail on the canvas itself
+    ctx.save();
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.fillStyle = 'rgba(5,0,8,0.38)';
+    ctx.fillRect(0,0,W(),H());
+    ctx.restore();
+
+    // Redraw traces each frame (so they stay solid under the fade)
+    drawTraces();
+
     pulses.forEach(p => {
       p.t += p.speed * dt;
-      if (p.t>1) { p.t=0; p.speed=0.0004+Math.random()*0.0008; }
+      if (p.t > 1) {
+        p.t = 0;
+        p.speed = 0.00035 + Math.random() * 0.0004;
+      }
       drawPulse(p);
     });
   }
+
   requestAnimationFrame(frame);
+})();
+</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// COLLABORATION SIGIL — Three.js spinning
+(function() {
+  const scv = document.getElementById('sigil-canvas');
+  if (!scv) return;
+
+  function resize() {
+    const stage = scv.parentElement;
+    scv.width = stage.offsetWidth;
+    scv.height = stage.offsetHeight;
+    camera.aspect = scv.width / scv.height;
+    camera.updateProjectionMatrix();
+    renderer.setSize(scv.width, scv.height);
+  }
+
+  const renderer = new THREE.WebGLRenderer({ canvas: scv, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x000000, 0);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 100);
+  camera.position.set(0, 0, 5.5);
+
+  // Convert SVG coords (viewBox 480x140) to 3D
+  // x3d = (svgX - 240) / 100, y3d = -(svgY - 70) / 100
+  function v(svgX, svgY, z) {
+    return new THREE.Vector3((svgX - 240) / 100, -(svgY - 70) / 100, z || 0);
+  }
+
+  function makeSigil(scale, goldCol, opacity) {
+    const group = new THREE.Group();
+    const s = scale;
+    const mat = new THREE.MeshPhongMaterial({
+      color: goldCol, emissive: goldCol, emissiveIntensity: 0.18,
+      shininess: 120, specular: 0xffd700,
+      transparent: opacity < 1, opacity: opacity
+    });
+
+    function tube(pts, radius) {
+      const curve = new THREE.CatmullRomCurve3(pts, false, 'catmullrom', 0);
+      const geo = new THREE.TubeGeometry(curve, Math.max(4, pts.length * 2), radius * s, 6, false);
+      group.add(new THREE.Mesh(geo, mat));
+    }
+    function seg(x1,y1,x2,y2, r) { tube([v(x1,y1), v(x2,y2)], r); }
+    function ring(sx,sy, r, tr) {
+      const geo = new THREE.TorusGeometry(r*s, tr*s, 12, 80);
+      const m = new THREE.Mesh(geo, mat); m.position.copy(v(sx,sy)); group.add(m);
+    }
+    function dot(sx,sy, r) {
+      const m = new THREE.Mesh(new THREE.SphereGeometry(r*s,12,12), mat);
+      m.position.copy(v(sx,sy)); group.add(m);
+    }
+
+    // Circle (Human) — cx=100 cy=70
+    ring(100,70, 0.38, 0.012);
+    ring(100,70, 0.24, 0.006);
+    dot(100,70, 0.05);
+    seg(100,36, 100,104, 0.004);
+    seg(66,70, 134,70, 0.004);
+
+    // Left connector
+    seg(138,70, 165,70, 0.01);
+    dot(138,70, 0.025);
+
+    // Resistor zigzag
+    const zigXY = [[165,70],[173,46],[181,94],[189,46],[197,94],[205,46],[213,94],[221,46],[229,70]];
+    for (let i=0;i<zigXY.length-1;i++) {
+      tube([v(zigXY[i][0],zigXY[i][1]), v(zigXY[i+1][0],zigXY[i+1][1])], 0.012);
+    }
+
+    // Right connector
+    seg(229,70, 256,70, 0.01);
+    dot(256,70, 0.025);
+
+    // Diamond (AI) — center 314,70
+    const dOut = [[314,32],[372,70],[314,108],[256,70],[314,32]];
+    for (let i=0;i<dOut.length-1;i++) tube([v(dOut[i][0],dOut[i][1]), v(dOut[i+1][0],dOut[i+1][1])], 0.012);
+    const dIn = [[314,48],[354,70],[314,92],[274,70],[314,48]];
+    for (let i=0;i<dIn.length-1;i++) tube([v(dIn[i][0],dIn[i][1]), v(dIn[i+1][0],dIn[i+1][1])], 0.006);
+    dot(314,70, 0.05);
+    seg(314,32, 314,108, 0.004);
+    seg(256,70, 372,70, 0.004);
+
+    return group;
+  }
+
+  const sigil = makeSigil(1.0, 0xc9a84c, 1.0);
+  scene.add(sigil);
+  const ghost1 = makeSigil(1.2, 0x8b0000, 0.10); ghost1.position.z=-0.9; ghost1.rotation.z=0.08; scene.add(ghost1);
+  const ghost2 = makeSigil(0.8, 0x440033, 0.07); ghost2.position.z=-0.45; ghost2.rotation.z=-0.06; scene.add(ghost2);
+
+  // Particle ring
+  const hGeo = new THREE.BufferGeometry();
+  const hPos = [];
+  for (let i=0;i<100;i++) { const a=(i/100)*Math.PI*2, r=2.0+(Math.random()-0.5)*0.1; hPos.push(Math.cos(a)*r, Math.sin(a)*r, (Math.random()-0.5)*0.2); }
+  hGeo.setAttribute('position', new THREE.Float32BufferAttribute(hPos, 3));
+  const halo = new THREE.Points(hGeo, new THREE.PointsMaterial({ color:0xc9a84c, size:0.03, transparent:true, opacity:0.4 }));
+  scene.add(halo);
+
+  scene.add(new THREE.AmbientLight(0x15000a, 3));
+  const rL = new THREE.PointLight(0xff2200, 4, 10); rL.position.set(-3,2,3); scene.add(rL);
+  const gL = new THREE.PointLight(0xffcc44, 3, 10); gL.position.set(3,-1,3); scene.add(gL);
+  const pL = new THREE.PointLight(0xcc00aa, 2, 10); pL.position.set(0,3,2); scene.add(pL);
+
+  let mx=0, my=0;
+  document.addEventListener('mousemove', e => { mx=(e.clientX/window.innerWidth-0.5)*2; my=-(e.clientY/window.innerHeight-0.5)*2; });
+
+  let t=0;
+  function animate() {
+    requestAnimationFrame(animate); t+=0.008;
+    rL.color.setHSL((t*0.04)%1, 1, 0.45);
+    gL.color.setHSL((t*0.06+0.12)%1, 0.9, 0.55);
+    pL.color.setHSL((t*0.025+0.75)%1, 1, 0.5);
+    sigil.rotation.z += 0.003;
+    sigil.rotation.x = Math.sin(t*0.3)*0.12 + my*0.08;
+    sigil.rotation.y = Math.cos(t*0.2)*0.08 + mx*0.06;
+    const breathe = 1 + Math.sin(t*1.5)*0.018;
+    sigil.scale.setScalar(breathe);
+    ghost1.rotation.z = sigil.rotation.z * 0.6 + 0.15;
+    ghost2.rotation.z = -sigil.rotation.z * 0.4 - 0.08;
+    halo.rotation.z -= 0.0018;
+    renderer.render(scene, camera);
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  animate();
 })();
 </script>
 
