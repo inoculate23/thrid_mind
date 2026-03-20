@@ -105,12 +105,12 @@ audio{display:none;}
 #btn:hover{border-color:var(--gold);box-shadow:0 0 22px rgba(201,168,76,0.35);}
 #viz{display:flex;align-items:flex-end;justify-content:center;gap:3px;height:40px;margin-top:4px;}
 .vbar{width:4px;background:linear-gradient(to top,#4a0000,var(--magenta));border-radius:2px 2px 0 0;height:3px;transition:height 0.05s;}
-#lyrics-section{width:90%;max-width:700px;margin:0 auto 36px;position:relative;z-index:12;}
-#lyrics-toggle{width:100%;background:rgba(5,0,8,0.83);backdrop-filter:blur(16px);border:1px solid rgba(201,168,76,0.18);color:rgba(201,168,76,0.6);font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;padding:11px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:all 0.3s;}
-#lyrics-toggle:hover{border-color:rgba(201,168,76,0.4);color:var(--gold);}
+#lyrics-section{width:90%;max-width:700px;margin:0 auto 36px;position:relative;z-index:12;}#lyrics-section::before,#lyrics-section::after{content:"✦";position:absolute;font-size:18px;color:rgba(201,168,76,0.7);z-index:13;text-shadow:0 0 8px rgba(201,168,76,0.5);}#lyrics-section::before{top:-10px;left:-10px;}#lyrics-section::after{bottom:-10px;right:-10px;}
+#lyrics-toggle{width:100%;background:rgba(5,0,8,0.88);backdrop-filter:blur(16px);border:3px solid rgba(201,168,76,0.55);border-bottom:none;color:rgba(201,168,76,0.85);font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:4px;text-transform:uppercase;padding:13px 22px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:all 0.3s;box-shadow:inset 0 0 20px rgba(201,168,76,0.06),0 0 18px rgba(201,168,76,0.12);position:relative;}
+#lyrics-toggle:hover{border-color:rgba(201,168,76,0.85);color:var(--gold);box-shadow:inset 0 0 24px rgba(201,168,76,0.1),0 0 24px rgba(201,168,76,0.2);}
 #lyrics-toggle.open .arrow{transform:rotate(180deg);}
 .arrow{transition:transform 0.3s;font-size:9px;}
-#lyrics-body{display:none;border:1px solid rgba(201,168,76,0.12);border-top:none;padding:28px 28px 24px;background:rgba(5,0,8,0.88);backdrop-filter:blur(18px);}
+#lyrics-body::before,#lyrics-body::after{content:"";position:absolute;width:22px;height:22px;border-color:rgba(201,168,76,0.8);border-style:solid;}#lyrics-body::before{bottom:-3px;left:-3px;border-width:0 0 3px 3px;}#lyrics-body::after{top:-3px;right:-3px;border-width:3px 3px 0 0;}#lyrics-toggle::before,#lyrics-toggle::after{content:"";position:absolute;width:18px;height:18px;border-color:rgba(201,168,76,0.9);border-style:solid;}#lyrics-toggle::before{top:-3px;left:-3px;border-width:3px 0 0 3px;}#lyrics-toggle::after{top:-3px;right:-3px;border-width:3px 3px 0 0;}#lyrics-body{display:none;border:3px solid rgba(201,168,76,0.55);border-top:1px solid rgba(201,168,76,0.2);padding:28px 32px 28px;background:rgba(5,0,8,0.88);backdrop-filter:blur(18px);box-shadow:inset 0 0 40px rgba(201,168,76,0.04),0 0 18px rgba(201,168,76,0.12);position:relative;}
 #lyrics-body.visible{display:block;}
 #lyrics-title{font-family:'UnifrakturMaguntia',serif;font-size:22px;color:var(--pale);margin-bottom:8px;text-shadow:0 0 14px rgba(201,168,76,0.3);}
 #lyrics-text{font-size:13px;line-height:2.1;color:rgba(240,230,211,0.75);white-space:pre-wrap;letter-spacing:0.3px;}
