@@ -477,7 +477,7 @@ let audioCtx=null,playing=false,currentIdx=0,analyser=null,dataArr=null;
 const tracks=Array.from(document.querySelectorAll('.pl-item'));
 
 function fmt(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(Math.floor(s%60)).padStart(2,'0');}
-function initCtx(){if(audioCtx)return;audioCtx=new(window.AudioContext||window.webkitAudioContext)();const src=audioCtx.createMediaElementSource(aud);analyser=audioCtx.createAnalyser();analyser.fftSize=64;dataArr=new Uint8Array(analyser.frequencyBinCount);src.connect(analyser);analyser.connect(audioCtx.destination);}
+function initCtx(){if(audioCtx)return;audioCtx=new(window.AudioContext||window.webkitAudioContext)();const src=audioCtx.createMediaElementSource(aud);analyser=audioCtx.createAnalyser();analyser.fftSize=2048;dataArr=new Uint8Array(analyser.frequencyBinCount);src.connect(analyser);analyser.connect(audioCtx.destination);}
 
 const lyricsData=[
   {title:"Claude & Craig",text:`<span class="section-tag">[Instrumental — The meeting of two minds]</span>\n\n<span class="hl">Two signals. One transmission.</span>\n<span class="rd">The collaboration that started this.</span>\n\n<span class="section-tag">[No words needed here —]</span>\n<span class="hl">The music is the document.</span>`},
@@ -521,7 +521,7 @@ document.addEventListener('mousemove',e=>{if(Math.random()>0.3)return;spawnSym(e
 document.addEventListener('click',e=>{for(let i=0;i<5;i++)setTimeout(()=>spawnSym(e.clientX+(Math.random()-0.5)*40,e.clientY+(Math.random()-0.5)*40),i*70);});
 function spawnSym(x,y){const sym=SYMBOLS[Math.floor(Math.random()*SYMBOLS.length)],col=TRAIL_COLORS[Math.floor(Math.random()*TRAIL_COLORS.length)],size=Math.floor(Math.random()*14+12),rot=Math.random()*360;const d=document.createElement('div');d.style.cssText=`position:fixed;left:${x}px;top:${y}px;width:${size}px;height:${size}px;pointer-events:none;z-index:9997;transform:translate(-50%,-50%) rotate(${rot}deg) scale(1);transition:opacity 0.7s ease-out,transform 0.7s ease-out;opacity:0.9;`;d.innerHTML=sym.replace(/COLOR/g,col);document.body.appendChild(d);requestAnimationFrame(()=>{d.style.opacity='0';d.style.transform=`translate(-50%,-50%) rotate(${rot+45}deg) scale(2.8)`;});setTimeout(()=>d.remove(),750);}
 
-function vizLoop(){requestAnimationFrame(vizLoop);if(analyser&&dataArr&&playing){analyser.getByteFrequencyData(dataArr);const step=Math.floor(dataArr.length/BARS);bars.forEach((b,i)=>{b.style.height=Math.max(3,(dataArr[i*step]/255)*42)+'px';});}}
+function vizLoop(){requestAnimationFrame(vizLoop);if(analyser&&dataArr&&playing){analyser.getByteFrequencyData(dataArr);const bins=dataArr.length;bars.forEach((b,i)=>{const t=i/(BARS-1);const bin=Math.floor(Math.pow(bins,t));const idx=Math.min(bin,bins-1);b.style.height=Math.max(3,(dataArr[idx]/255)*52)+'px';});}}
 vizLoop();
 </script>
 
