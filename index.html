@@ -134,21 +134,27 @@ footer a:hover{color:#fff;text-shadow:0 0 20px rgba(201,168,76,0.9),0 0 40px rgb
 @keyframes glitch{0%,88%,100%{transform:none;filter:none}89%{transform:translate(-3px,0);filter:hue-rotate(90deg) saturate(2)}90%{transform:translate(3px,0);filter:hue-rotate(-90deg)}91%{transform:none;filter:none}93%{transform:translate(0,-2px) skewX(3deg);filter:saturate(3)}94%{transform:none;filter:none}}
 
 .nouveau-box{
-  border:1px solid rgba(201,168,76,0.4);
-  box-shadow:inset 0 0 30px rgba(201,168,76,0.04),0 0 18px rgba(201,168,76,0.1);
+  position:relative;
   background:rgba(5,0,8,0.85);
   backdrop-filter:blur(14px);
-  position:relative;
+  border:none;
+  box-shadow:0 0 18px rgba(201,168,76,0.1);
 }
-.nouveau-box::before,.nouveau-box::after,
-.nouveau-box .nc-bl,.nouveau-box .nc-br{
+.nouveau-box::before{
   content:'';
   position:absolute;
-  width:80px;height:80px;
-  background-size:80px 80px;
+  inset:-6px;
+  background-image:url('frame.png');
+  background-size:100% 100%;
   background-repeat:no-repeat;
   pointer-events:none;
-  z-index:2;
+  z-index:10;
+  filter:invert(1) sepia(1) saturate(2.5) hue-rotate(5deg) brightness(0.95);
+  mix-blend-mode:screen;
+}
+.nouveau-box::after,
+.nouveau-box .nc-bl,.nouveau-box .nc-br{
+  display:none;
 }
 .nouveau-box::before{top:-2px;left:-2px;background-image:url("data:image/svg+xml,%3Csvg%20xmlns=%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox=%220%200%2080%2080%22%20fill=%22none%22%3E%3Cg%20stroke=%22rgba(201,168,76,0.9)%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%3E%3C%21--%20main%20stem%20--%3E%3Cpath%20d=%22M2%202%20L2%2060%20Q2%2075%2017%2075%20L75%2075%22%20stroke-width=%221.8%22%2F%3E%3C%21--%20top%20curl%20--%3E%3Cpath%20d=%22M2%202%20Q2%200%208%202%20Q20%206%2018%2018%20Q16%2028%208%2028%20Q2%2028%202%2022%20Q2%2016%208%2016%20Q13%2016%2013%2020%20Q13%2024%209%2023%22%20stroke-width=%221.2%22%2F%3E%3C%21--%20mid%20leaf%20--%3E%3Cpath%20d=%22M2%2038%20Q-6%2030%202%2024%20Q8%2020%2010%2028%20Q12%2036%202%2038Z%22%20stroke-width=%221%22%20fill=%22rgba(201,168,76,0.15)%22%2F%3E%3C%21--%20bottom%20curl%20--%3E%3Cpath%20d=%22M75%2075%20Q77%2075%2075%2069%20Q71%2057%2059%2059%20Q49%2061%2049%2069%20Q49%2075%2055%2075%20Q61%2075%2061%2070%20Q61%2065%2057%2066%22%20stroke-width=%221.2%22%2F%3E%3C%21--%20right%20leaf%20--%3E%3Cpath%20d=%22M65%2075%20Q57%2083%2051%2075%20Q47%2069%2055%2067%20Q63%2065%2065%2075Z%22%20stroke-width=%221%22%20fill=%22rgba(201,168,76,0.15)%22%2F%3E%3C%21--%20flower%20bud%20at%20top%20curl%20tip%20--%3E%3Ccircle%20cx=%229%22%20cy=%2223%22%20r=%223%22%20fill=%22rgba(201,168,76,0.6)%22%20stroke=%22rgba(201,168,76,0.9)%22%20stroke-width=%221%22%2F%3E%3C%21--%20petal%20lines%20--%3E%3Cpath%20d=%22M9%2020%20Q12%2021%2011%2023%22%20stroke-width=%220.8%22%2F%3E%3Cpath%20d=%22M9%2020%20Q7%2022%208%2024%22%20stroke-width=%220.8%22%2F%3E%3C%21--%20dot%20accent%20--%3E%3Ccircle%20cx=%2257%22%20cy=%2266%22%20r=%222.5%22%20fill=%22rgba(201,168,76,0.6)%22%20stroke=%22rgba(201,168,76,0.9)%22%20stroke-width=%221%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");}
 .nouveau-box::after{top:-2px;right:-2px;background-image:url("data:image/svg+xml,%3Csvg%20xmlns=%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox=%220%200%2080%2080%22%20fill=%22none%22%3E%3Cg%20stroke=%22rgba(201,168,76,0.9)%22%20stroke-linecap=%22round%22%20stroke-linejoin=%22round%22%3E%3Cpath%20d=%22M78%202%20L78%2060%20Q78%2075%2063%2075%20L5%2075%22%20stroke-width=%221.8%22%2F%3E%3Cpath%20d=%22M78%202%20Q78%200%2072%202%20Q60%206%2062%2018%20Q64%2028%2072%2028%20Q78%2028%2078%2022%20Q78%2016%2072%2016%20Q67%2016%2067%2020%20Q67%2024%2071%2023%22%20stroke-width=%221.2%22%2F%3E%3Cpath%20d=%22M78%2038%20Q86%2030%2078%2024%20Q72%2020%2070%2028%20Q68%2036%2078%2038Z%22%20stroke-width=%221%22%20fill=%22rgba(201,168,76,0.15)%22%2F%3E%3Cpath%20d=%22M5%2075%20Q3%2075%205%2069%20Q9%2057%2021%2059%20Q31%2061%2031%2069%20Q31%2075%2025%2075%20Q19%2075%2019%2070%20Q19%2065%2023%2066%22%20stroke-width=%221.2%22%2F%3E%3Cpath%20d=%22M15%2075%20Q23%2083%2029%2075%20Q33%2069%2025%2067%20Q17%2065%2015%2075Z%22%20stroke-width=%221%22%20fill=%22rgba(201,168,76,0.15)%22%2F%3E%3Ccircle%20cx=%2271%22%20cy=%2223%22%20r=%223%22%20fill=%22rgba(201,168,76,0.6)%22%20stroke=%22rgba(201,168,76,0.9)%22%20stroke-width=%221%22%2F%3E%3Cpath%20d=%22M71%2020%20Q68%2021%2069%2023%22%20stroke-width=%220.8%22%2F%3E%3Cpath%20d=%22M71%2020%20Q73%2022%2072%2024%22%20stroke-width=%220.8%22%2F%3E%3Ccircle%20cx=%2223%22%20cy=%2266%22%20r=%222.5%22%20fill=%22rgba(201,168,76,0.6)%22%20stroke=%22rgba(201,168,76,0.9)%22%20stroke-width=%221%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");}
