@@ -193,7 +193,7 @@ footer a:hover{color:#fff;text-shadow:0 0 20px rgba(201,168,76,0.9),0 0 40px rgb
           <span class="pl-name">The Third Mind Part 1 <span class="sample-tag">sample</span></span>
           <a class="buy-btn" href="https://buy.stripe.com/4gM8wPbip0tpd12coZ4ko0g" target="_blank">Buy $2</a>
         </div>
-        <div class="pl-item" data-idx="2" data-src="el-diablo.mp3" data-title="El Diablo" data-meta="Squaawke x Claude · 2026">
+        <div class="pl-item" data-idx="16" data-src="el-diablo.mp3" data-title="El Diablo" data-meta="Squaawke x Claude · 2026">
           <span class="pl-num">III</span>
           <span class="pl-name">El Diablo <span class="sample-tag">sample</span></span>
           <a class="buy-btn" href="STRIPE_diablo" target="_blank">Buy $2</a>
@@ -573,5 +573,26 @@ function vizLoop(){requestAnimationFrame(vizLoop);if(analyser&&dataArr&&playing)
 vizLoop();
 </script>
 
+
+<script>
+(function(){
+  const DEVIL_TRACKS = ['el-diablo.mp3','DEVIL.mp3','we-must-not-starve.mp3'];
+  const bg = document.getElementById('bg');
+  if(!bg) return;
+  const devilLayer = document.createElement('div');
+  devilLayer.style.cssText = 'position:fixed;inset:0;z-index:0;background-image:url(devil.jpg);background-size:cover;background-position:center;opacity:0;transition:opacity 2s ease;pointer-events:none;filter:brightness(0.72) saturate(1.4);';
+  bg.parentNode.insertBefore(devilLayer, bg.nextSibling);
+  function isDevil(src){ return DEVIL_TRACKS.some(t => src && src.includes(t)); }
+  let lastSrc = '';
+  setInterval(function(){
+    const aud = document.getElementById('aud');
+    if(!aud) return;
+    const src = aud.src || '';
+    if(src === lastSrc) return;
+    lastSrc = src;
+    devilLayer.style.opacity = isDevil(src) ? '1' : '0';
+  }, 300);
+})();
+</script>
 </body>
 </html>
