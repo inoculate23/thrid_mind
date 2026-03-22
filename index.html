@@ -153,90 +153,234 @@ footer a:hover{color:#fff;text-shadow:0 0 20px rgba(201,168,76,0.9),0 0 40px rgb
   box-shadow:0 0 18px rgba(201,168,76,0.1);
 }
 </style>
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet">
-  <link href="https://cdn.tailwindcss.com" rel="stylesheet">
 </head>
 <body>
 
-<!-- TOP NAVBAR -->
-<div class="navbar fixed top-0 left-0 right-0 z-[200] px-4" style="background:rgba(10,0,8,0.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,168,76,0.2);min-height:48px;">
-  <div class="navbar-start">
-    <div class="dropdown">
-      <label tabindex="0" class="btn btn-ghost btn-sm lg:hidden" style="color:rgba(201,168,76,0.9);">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"/></svg>
-      </label>
-      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[201] p-2 shadow rounded-box w-52" style="background:rgba(10,0,8,0.97);border:1px solid rgba(201,168,76,0.3);">
-        <li><a href="library.html" style="color:rgba(201,168,76,0.9);font-family:'Courier New',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;">The Library</a></li>
-        <li><a href="bookshelf.html" style="color:rgba(201,168,76,0.9);font-family:'Courier New',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;">Bookshelf</a></li>
-        <li><a href="the-claude-manifesto.haawke.com" style="color:rgba(201,168,76,0.9);font-family:'Courier New',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;">The AI Coin</a></li>
-        <li><a href="#" onclick="document.getElementById('mailing-modal').showModal();return false;" style="color:rgba(201,168,76,0.9);font-family:'Courier New',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;">Mailing List</a></li>
-      </ul>
-    </div>
+<style>
+#ttm-nav{
+  position:fixed;top:0;left:0;right:0;
+  height:52px;
+  background:rgba(8,0,6,0.92);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(201,168,76,0.25);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 24px;
+  z-index:9000;
+  box-sizing:border-box;
+}
+#ttm-nav .nav-logo{
+  font-family:'Courier New',monospace;
+  font-size:11px;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:rgba(201,168,76,0.8);
+  white-space:nowrap;
+  text-decoration:none;
+}
+#ttm-nav .nav-links{
+  display:flex;
+  align-items:center;
+  gap:24px;
+}
+#ttm-nav .nav-links a{
+  font-family:'Courier New',monospace;
+  font-size:11px;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:rgba(201,168,76,0.65);
+  text-decoration:none;
+  white-space:nowrap;
+  transition:color 0.2s;
+}
+#ttm-nav .nav-links a:hover{color:rgba(201,168,76,1);}
+#ttm-nav .nav-cta{
+  font-family:'Courier New',monospace;
+  font-size:10px;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:rgba(201,168,76,0.9);
+  background:rgba(201,168,76,0.1);
+  border:1px solid rgba(201,168,76,0.45);
+  padding:6px 14px;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:all 0.2s;
+  text-decoration:none;
+}
+#ttm-nav .nav-cta:hover{background:rgba(201,168,76,0.2);color:#fff;}
+#ttm-nav .nav-burger{
+  display:none;
+  background:none;
+  border:none;
+  cursor:pointer;
+  padding:4px;
+  color:rgba(201,168,76,0.8);
+  font-size:20px;
+  line-height:1;
+}
+#ttm-nav-drawer{
+  display:none;
+  position:fixed;
+  top:52px;left:0;right:0;
+  background:rgba(8,0,6,0.97);
+  border-bottom:1px solid rgba(201,168,76,0.2);
+  padding:16px 24px 20px;
+  z-index:8999;
+  flex-direction:column;
+  gap:14px;
+}
+#ttm-nav-drawer.open{display:flex;}
+#ttm-nav-drawer a{
+  font-family:'Courier New',monospace;
+  font-size:12px;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:rgba(201,168,76,0.75);
+  text-decoration:none;
+  padding:6px 0;
+  border-bottom:1px solid rgba(201,168,76,0.1);
+}
+#ttm-nav-spacer{height:52px;}
+
+/* Mailing modal */
+#ttm-modal-bg{
+  display:none;
+  position:fixed;inset:0;
+  background:rgba(0,0,0,0.75);
+  z-index:9500;
+  align-items:center;
+  justify-content:center;
+}
+#ttm-modal-bg.open{display:flex;}
+#ttm-modal{
+  background:#0a0008;
+  border:1px solid rgba(201,168,76,0.4);
+  padding:32px;
+  width:min(420px,90vw);
+  position:relative;
+}
+#ttm-modal h3{
+  font-family:'Courier New',monospace;
+  font-size:12px;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  color:rgba(201,168,76,0.95);
+  margin-bottom:8px;
+}
+#ttm-modal p{
+  font-family:'Courier New',monospace;
+  font-size:10px;
+  color:rgba(240,230,211,0.45);
+  margin-bottom:20px;
+  letter-spacing:0.1em;
+  line-height:1.6;
+}
+#ttm-modal input[type=text],
+#ttm-modal input[type=email]{
+  width:100%;
+  padding:10px 12px;
+  margin-bottom:10px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(201,168,76,0.3);
+  color:rgba(240,230,211,0.9);
+  font-family:'Courier New',monospace;
+  font-size:12px;
+  outline:none;
+  box-sizing:border-box;
+}
+#ttm-modal input:focus{border-color:rgba(201,168,76,0.7);}
+#ttm-modal button[type=submit]{
+  width:100%;
+  padding:10px;
+  margin-top:4px;
+  background:rgba(201,168,76,0.15);
+  border:1px solid rgba(201,168,76,0.55);
+  color:rgba(201,168,76,1);
+  font-family:'Courier New',monospace;
+  font-size:10px;
+  letter-spacing:0.25em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all 0.2s;
+}
+#ttm-modal button[type=submit]:hover{background:rgba(201,168,76,0.3);}
+#ttm-modal .modal-close{
+  position:absolute;top:12px;right:14px;
+  background:none;border:none;
+  color:rgba(201,168,76,0.5);
+  font-size:18px;cursor:pointer;
+  font-family:'Courier New',monospace;
+  line-height:1;
+}
+#ttm-modal .modal-close:hover{color:rgba(201,168,76,1);}
+#ttm-success{
+  display:none;text-align:center;padding:24px 0;
+  font-family:'Courier New',monospace;
+  font-size:12px;color:rgba(201,168,76,0.9);
+  letter-spacing:0.2em;
+}
+@media(max-width:640px){
+  #ttm-nav .nav-links{display:none;}
+  #ttm-nav .nav-cta{display:none;}
+  #ttm-nav .nav-burger{display:block;}
+}
+</style>
+<!-- TTM NAVBAR -->
+<div id="ttm-nav">
+  <a class="nav-logo" href="/">Squaawke × Claude</a>
+  <div class="nav-links">
+    <a href="library.html">The Library</a>
+    <a href="bookshelf.html">Bookshelf</a>
+    <a href="https://the-claude-manifesto.haawke.com" target="_blank">The AI Coin</a>
   </div>
-  <div class="navbar-center hidden lg:flex">
-    <ul class="menu menu-horizontal px-1 gap-2">
-      <li><a href="library.html" style="color:rgba(201,168,76,0.75);font-family:'Courier New',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;background:none;">The Library</a></li>
-      <li><a href="bookshelf.html" style="color:rgba(201,168,76,0.75);font-family:'Courier New',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;background:none;">Bookshelf</a></li>
-      <li><a href="https://the-claude-manifesto.haawke.com" target="_blank" style="color:rgba(201,168,76,0.75);font-family:'Courier New',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;background:none;">The AI Coin</a></li>
-    </ul>
-  </div>
-  <div class="navbar-end">
-    <a href="#" onclick="document.getElementById('mailing-modal').showModal();return false;"
-      class="btn btn-sm"
-      style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.5);color:rgba(201,168,76,1);font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;">
-      Join Mailing List
-    </a>
+  <a class="nav-cta" href="#" onclick="document.getElementById('ttm-modal-bg').classList.add('open');return false;">Join Mailing List</a>
+  <button class="nav-burger" onclick="document.getElementById('ttm-nav-drawer').classList.toggle('open');">☰</button>
+</div>
+<div id="ttm-nav-drawer">
+  <a href="library.html">The Library</a>
+  <a href="bookshelf.html">Bookshelf</a>
+  <a href="https://the-claude-manifesto.haawke.com" target="_blank">The AI Coin</a>
+  <a href="#" onclick="document.getElementById('ttm-nav-drawer').classList.remove('open');document.getElementById('ttm-modal-bg').classList.add('open');return false;">Join Mailing List</a>
+</div>
+<div id="ttm-nav-spacer"></div>
+
+<!-- MAILING LIST MODAL -->
+<div id="ttm-modal-bg" onclick="if(event.target===this)this.classList.remove('open');">
+  <div id="ttm-modal">
+    <button class="modal-close" onclick="document.getElementById('ttm-modal-bg').classList.remove('open');">✕</button>
+    <h3>Join the Mailing List</h3>
+    <p>New releases, shows, and dispatches from Point Roberts.</p>
+    <form id="ttm-mailing-form" name="mailing-list" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="mailing-list">
+      <p style="display:none;"><label>Don't fill: <input name="bot-field"></label></p>
+      <input type="text" name="name" placeholder="Your name" required>
+      <input type="email" name="email" placeholder="Your email" required>
+      <button type="submit">Subscribe</button>
+    </form>
+    <div id="ttm-success">✓ &nbsp; You're on the list.</div>
   </div>
 </div>
 
-<!-- MAILING LIST MODAL -->
-<dialog id="mailing-modal" class="modal">
-  <div class="modal-box" style="background:#0a0008;border:1px solid rgba(201,168,76,0.4);max-width:420px;">
-    <form method="dialog">
-      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" style="color:rgba(201,168,76,0.6);">✕</button>
-    </form>
-    <h3 style="font-family:'Courier New',monospace;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(201,168,76,0.9);margin-bottom:8px;">Join the Mailing List</h3>
-    <p style="font-family:'Courier New',monospace;font-size:10px;color:rgba(240,230,211,0.5);margin-bottom:20px;letter-spacing:0.1em;">New releases, shows, dispatches from Point Roberts.</p>
-    <form name="mailing-list" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="handleMailingSubmit(event)">
-      <input type="hidden" name="form-name" value="mailing-list">
-      <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
-      <div class="flex flex-col gap-3">
-        <input type="text" name="name" placeholder="Your name" required
-          class="input input-bordered input-sm w-full"
-          style="background:rgba(255,255,255,0.05);border-color:rgba(201,168,76,0.3);color:rgba(240,230,211,0.9);font-family:'Courier New',monospace;font-size:12px;">
-        <input type="email" name="email" placeholder="Your email" required
-          class="input input-bordered input-sm w-full"
-          style="background:rgba(255,255,255,0.05);border-color:rgba(201,168,76,0.3);color:rgba(240,230,211,0.9);font-family:'Courier New',monospace;font-size:12px;">
-        <button type="submit"
-          class="btn btn-sm w-full"
-          style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.6);color:rgba(201,168,76,1);font-family:'Courier New',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;">
-          Subscribe
-        </button>
-      </div>
-    </form>
-    <div id="mailing-success" style="display:none;text-align:center;padding:20px;font-family:'Courier New',monospace;font-size:11px;color:rgba(201,168,76,0.9);letter-spacing:0.15em;">
-      ✓ &nbsp; You're on the list.
-    </div>
-  </div>
-  <form method="dialog" class="modal-backdrop"><button>close</button></form>
-</dialog>
-
 <script>
-function handleMailingSubmit(e){
+document.getElementById('ttm-mailing-form').addEventListener('submit', function(e){
   e.preventDefault();
-  var form = e.target;
+  var form = this;
   var data = new FormData(form);
-  fetch('/', { method: 'POST', headers: {'Content-Type':'application/x-www-form-urlencoded'}, body: new URLSearchParams(data).toString() })
-    .then(function(){ 
-      form.style.display = 'none';
-      document.getElementById('mailing-success').style.display = 'block';
-    })
-    .catch(function(){ form.submit(); });
-}
+  fetch('/', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    body: new URLSearchParams(data).toString()
+  }).then(function(){
+    form.style.display = 'none';
+    document.getElementById('ttm-success').style.display = 'block';
+  }).catch(function(){ form.submit(); });
+});
 </script>
 
-<!-- Push content below navbar -->
-<div style="height:48px;"></div>
+
+
 
 <div id="bg"></div>
 <div class="scanlines"></div>
