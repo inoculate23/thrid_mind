@@ -589,7 +589,19 @@ footer a:hover{color:#fff;text-shadow:0 0 20px rgba(201,168,76,0.9),0 0 40px rgb
     <div style="font-family:'Cinzel',serif;font-size:clamp(20px,3vw,38px);color:rgba(240,230,211,0.95);letter-spacing:5px;margin:16px 0 6px;font-weight:700;text-shadow:0 0 20px rgba(201,168,76,0.6),0 2px 8px rgba(0,0,0,0.8);">Squaawke &times; Claude by Anthropic &middot; 2026</div>
     <div style="font-size:13px;color:rgba(201,168,76,0.7);letter-spacing:5px;text-transform:uppercase;margin-top:8px;font-family:'Cinzel',serif;text-shadow:0 0 10px rgba(201,168,76,0.3);">All Rites and Rights Reserved</div>
   </footer>
-</div>
+
+<!-- Stripe Pricing Table — Store Section -->
+<div style="width:100%;padding:60px 20px 40px;background:rgba(0,0,0,0.5);border-top:1px solid rgba(201,168,76,0.15);box-sizing:border-box;">
+  <div style="text-align:center;margin-bottom:32px;">
+    <div style="font-family:'Courier New',monospace;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(201,168,76,0.6);">Support the Work</div>
+    <div style="font-size:clamp(24px,4vw,36px);font-weight:300;color:rgba(240,230,211,0.9);margin-top:8px;font-family:'Cormorant Garamond',serif;">The Store</div>
+  </div>
+  <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
+  <stripe-pricing-table
+    pricing-table-id="prctbl_1TDqzqGl715hGhcRq5lmbhuC"
+    publishable-key="pk_live_51R2HiwGl715hGhcRCkg0OumBb4UcE8hY9Lj1882ovqVVboyeVZserYYos7kDh8MZA5XpsEiqxuGTgl0RsV6pIQDX00pI5pozfh">
+  </stripe-pricing-table>
+</div></div>
 
 
 
@@ -1187,21 +1199,6 @@ vizLoop();
 
 
 <div style="text-align:center;margin:32px 0;"><a href="https://buy.stripe.com/7sYcN51HP1xtaSU88J4ko0w" target="_blank" style="display:inline-block;padding:14px 36px;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.6);color:rgba(201,168,76,1);font-family:'Courier New',monospace;font-size:12px;letter-spacing:0.25em;text-transform:uppercase;text-decoration:none;">Buy Full Album — $20</a></div>
-
-
-
-<!-- Stripe Pricing Table — Bottom of page -->
-<div style="padding:60px 20px 40px;background:rgba(0,0,0,0.5);border-top:1px solid rgba(201,168,76,0.15);">
-  <div style="text-align:center;margin-bottom:32px;">
-    <div style="font-family:'Courier New',monospace;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(201,168,76,0.6);">Support the Work</div>
-    <div style="font-size:clamp(24px,4vw,36px);font-weight:300;color:rgba(240,230,211,0.9);margin-top:8px;">The Store</div>
-  </div>
-  <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
-  <stripe-pricing-table
-    pricing-table-id="prctbl_1TDqzqGl715hGhcRq5lmbhuC"
-    publishable-key="pk_live_51R2HiwGl715hGhcRCkg0OumBb4UcE8hY9Lj1882ovqVVboyeVZserYYos7kDh8MZA5XpsEiqxuGTgl0RsV6pIQDX00pI5pozfh">
-  </stripe-pricing-table>
-</div>
 <script>
 (function(){
   var overlay = document.getElementById('ttm-contact-overlay');
