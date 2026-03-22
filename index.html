@@ -594,5 +594,67 @@ vizLoop();
   }, 300);
 })();
 </script>
+
+  <!-- COMING NEXT -->
+  <div id="coming-next" style="margin:60px 0 0;padding:40px 0 0;border-top:1px solid rgba(201,168,76,0.15);">
+
+    <div style="font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:rgba(201,168,76,0.5);text-align:center;margin-bottom:20px;">Coming Next · Squaawke × Claude</div>
+
+    <div style="text-align:center;margin-bottom:12px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(24px,4vw,40px);font-weight:300;font-style:italic;color:rgba(240,230,211,0.9);letter-spacing:.03em;">A Spoken Word Collection</div>
+      <div style="font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,0.6);margin-top:8px;">Short Stories · Original Music · Human Voice · Machine Voice</div>
+    </div>
+
+    <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(15px,1.8vw,18px);font-weight:300;line-height:1.85;color:rgba(240,230,211,0.55);text-align:center;max-width:580px;margin:0 auto 32px;">
+      The next project from Craig Ellenwood and Claude by Anthropic — original short fiction and memoir, spoken aloud, scored with music. Stories from an extraordinary life. A new medium for the same conversation.
+    </p>
+
+    <!-- Netlify Form -->
+    <form name="spoken-word-signup" method="POST" data-netlify="true" netlify-honeypot="bot-field"
+      style="max-width:480px;margin:0 auto;"
+      onsubmit="handleSignup(event)">
+      <input type="hidden" name="form-name" value="spoken-word-signup">
+      <p style="display:none;"><input name="bot-field"></p>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <input
+          type="email"
+          name="email"
+          required
+          placeholder="your@email.com"
+          style="flex:1;min-width:200px;background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.3);color:rgba(240,230,211,0.9);font-family:'Courier Prime',monospace;font-size:12px;letter-spacing:.08em;padding:12px 16px;outline:none;transition:border-color .2s;"
+          onfocus="this.style.borderColor='rgba(201,168,76,0.8)'"
+          onblur="this.style.borderColor='rgba(201,168,76,0.3)'"
+        >
+        <button type="submit"
+          style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.5);color:rgba(201,168,76,0.9);font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:.25em;text-transform:uppercase;padding:12px 24px;cursor:pointer;transition:all .2s;white-space:nowrap;"
+          onmouseover="this.style.background='rgba(201,168,76,0.2)';this.style.borderColor='rgba(201,168,76,0.9)'"
+          onmouseout="this.style.background='rgba(201,168,76,0.1)';this.style.borderColor='rgba(201,168,76,0.5)'"
+        >Notify Me</button>
+      </div>
+
+      <div id="signup-confirm" style="display:none;font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:rgba(201,168,76,0.7);margin-top:12px;text-align:center;">
+        ✓ &nbsp; You're on the list. We'll be in touch.
+      </div>
+
+      <p style="font-family:'Courier Prime',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(240,230,211,0.25);margin-top:10px;text-align:center;">No spam. Only signal. Unsubscribe anytime.</p>
+    </form>
+  </div>
+
+  <script>
+  function handleSignup(e) {
+    e.preventDefault();
+    const form = e.target;
+    const data = new FormData(form);
+    fetch('/', { method: 'POST', body: data })
+      .then(() => {
+        form.querySelector('input[type=email]').style.display = 'none';
+        form.querySelector('button').style.display = 'none';
+        document.getElementById('signup-confirm').style.display = 'block';
+      })
+      .catch(() => form.submit());
+  }
+  </script>
+
 </body>
 </html>
