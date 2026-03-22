@@ -412,21 +412,7 @@ footer a:hover{color:#fff;text-shadow:0 0 20px rgba(201,168,76,0.9),0 0 40px rgb
   </div>
 </div>
 
-<script>
-document.getElementById('ttm-mailing-form').addEventListener('submit', function(e){
-  e.preventDefault();
-  var form = this;
-  var data = new FormData(form);
-  fetch('/', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-    body: new URLSearchParams(data).toString()
-  }).then(function(){
-    form.style.display = 'none';
-    document.getElementById('ttm-success').style.display = 'block';
-  }).catch(function(){ form.submit(); });
-});
-</script>
+
 
 
 
@@ -1199,6 +1185,23 @@ vizLoop();
   </div>
 </div>
 
+
+<div style="text-align:center;margin:32px 0;"><a href="https://buy.stripe.com/7sYcN51HP1xtaSU88J4ko0w" target="_blank" style="display:inline-block;padding:14px 36px;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.6);color:rgba(201,168,76,1);font-family:'Courier New',monospace;font-size:12px;letter-spacing:0.25em;text-transform:uppercase;text-decoration:none;">Buy Full Album — $20</a></div>
+
+
+
+<!-- Stripe Pricing Table — Bottom of page -->
+<div style="padding:60px 20px 40px;background:rgba(0,0,0,0.5);border-top:1px solid rgba(201,168,76,0.15);">
+  <div style="text-align:center;margin-bottom:32px;">
+    <div style="font-family:'Courier New',monospace;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(201,168,76,0.6);">Support the Work</div>
+    <div style="font-size:clamp(24px,4vw,36px);font-weight:300;color:rgba(240,230,211,0.9);margin-top:8px;">The Store</div>
+  </div>
+  <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
+  <stripe-pricing-table
+    pricing-table-id="prctbl_1TDqzqGl715hGhcRq5lmbhuC"
+    publishable-key="pk_live_51R2HiwGl715hGhcRCkg0OumBb4UcE8hY9Lj1882ovqVVboyeVZserYYos7kDh8MZA5XpsEiqxuGTgl0RsV6pIQDX00pI5pozfh">
+  </stripe-pricing-table>
+</div>
 <script>
 (function(){
   var overlay = document.getElementById('ttm-contact-overlay');
@@ -1206,13 +1209,14 @@ vizLoop();
   var closeBtn = document.getElementById('ttm-drawer-close');
   var form = document.getElementById('ttm-contact-form');
   var success = document.getElementById('ttm-drawer-success');
+  var submitBtn = document.getElementById('ttm-drawer-submit');
 
   var subjectMap = {
-    'Booking / Shows': 'Let's talk shows.',
+    'Booking / Shows': "Let's talk shows.",
     'Music Licensing': 'License the music.',
     'Press / Media': 'Press & Media.',
     'Collaboration': 'Pull up a chair.',
-    'AI / Tech Work': 'Let's build something.',
+    'AI / Tech Work': "Let's build something.",
     'General': 'Get in touch.'
   };
 
@@ -1229,7 +1233,6 @@ vizLoop();
     });
     document.body.style.overflow = 'hidden';
     drawer.setAttribute('aria-hidden','false');
-    // close contact dropdown
     var dd = document.querySelector('.ttm-nav-contact-dropdown');
     if(dd) dd.classList.remove('open');
   }
@@ -1246,50 +1249,74 @@ vizLoop();
   if(overlay) overlay.addEventListener('click', closeDrawer);
   document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeDrawer(); });
 
-  // Contact trigger links
   document.addEventListener('click', function(e){
     var t = e.target.closest('.ttm-contact-trigger');
     if(t){ e.preventDefault(); openDrawer(t.getAttribute('data-subject') || 'General'); }
-    // Contact dropdown toggle
     var toggle = e.target.closest('.ttm-nav-contact-toggle');
     if(toggle){
       e.preventDefault(); e.stopPropagation();
       var dd = toggle.closest('.ttm-nav-contact-item').querySelector('.ttm-nav-contact-dropdown');
       if(dd) dd.classList.toggle('open');
     }
-    // Close dropdown on outside click
     if(!e.target.closest('.ttm-nav-contact-item')){
       document.querySelectorAll('.ttm-nav-contact-dropdown').forEach(function(d){ d.classList.remove('open'); });
     }
   });
 
-  // Form submit
   if(form) form.addEventListener('submit', function(e){
     e.preventDefault();
+    if(submitBtn){ submitBtn.textContent = 'Sending...'; submitBtn.disabled = true; }
     var data = new FormData(form);
-    fetch('/', {
+    // Netlify requires form-name in the POST body
+    var encoded = new URLSearchParams();
+    data.forEach(function(val, key){ encoded.append(key, val); });
+    encoded.append('form-name', 'contact');
+    fetch(window.location.pathname, {
       method: 'POST',
-      headers: {'Content-Type':'application/x-www-form-urlencoded'},
-      body: new URLSearchParams(data).toString()
-    }).then(function(){
-      form.style.display = 'none';
-      success.style.display = 'block';
-    }).catch(function(){ form.submit(); });
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: encoded.toString()
+    }).then(function(res){
+      if(res.ok || res.status === 200 || res.redirected){
+        form.style.display = 'none';
+        success.style.display = 'block';
+      } else {
+        throw new Error('Status ' + res.status);
+      }
+    }).catch(function(err){
+      console.error('Form error:', err);
+      // Fallback: native submit
+      form.setAttribute('action', window.location.pathname);
+      form.submit();
+    });
   });
 
-  // Expose globally so nav can call it
   window.ttmOpenContact = openDrawer;
 })();
 </script>
-<div style="text-align:center;margin:32px 0;"><a href="https://buy.stripe.com/7sYcN51HP1xtaSU88J4ko0w" target="_blank" style="display:inline-block;padding:14px 36px;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.6);color:rgba(201,168,76,1);font-family:'Courier New',monospace;font-size:12px;letter-spacing:0.25em;text-transform:uppercase;text-decoration:none;">Buy Full Album — $20</a></div>
-
-<!-- Stripe Pricing Table -->
-<div style="padding:40px 20px;background:rgba(0,0,0,0.4);">
-  <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
-  <stripe-pricing-table
-    pricing-table-id="prctbl_1TDqzqGl715hGhcRq5lmbhuC"
-    publishable-key="pk_live_51R2HiwGl715hGhcRCkg0OumBb4UcE8hY9Lj1882ovqVVboyeVZserYYos7kDh8MZA5XpsEiqxuGTgl0RsV6pIQDX00pI5pozfh">
-  </stripe-pricing-table>
-</div>
+<script>
+document.getElementById('ttm-mailing-form').addEventListener('submit', function(e){
+  e.preventDefault();
+  var form = this;
+  var btn = form.querySelector('button[type=submit]');
+  if(btn){ btn.textContent = 'Sending...'; btn.disabled = true; }
+  var data = new FormData(form);
+  var encoded = new URLSearchParams();
+  data.forEach(function(val, key){ encoded.append(key, val); });
+  encoded.append('form-name', 'mailing-list');
+  fetch(window.location.pathname, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    body: encoded.toString()
+  }).then(function(res){
+    if(res.ok || res.status === 200 || res.redirected){
+      form.style.display = 'none';
+      document.getElementById('ttm-success').style.display = 'block';
+    } else { throw new Error(res.status); }
+  }).catch(function(){
+    form.setAttribute('action', window.location.pathname);
+    form.submit();
+  });
+});
+</script>
 </body>
 </html>
