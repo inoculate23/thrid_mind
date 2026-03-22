@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Bookshelf — Thee Third Mind · Squaawke × Claude</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#f5f0e8;--ink:#1a1612;--gold:#c9a84c;--rust:#8b3a2a;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{background:#2a2420;}
+body{background:#2a2420;min-height:100vh;padding:clamp(24px,5vw,80px) clamp(16px,4vw,40px);display:flex;justify-content:center;align-items:flex-start;font-family:'Cormorant Garamond',serif;color:var(--ink);}
+.paper{background:var(--cream);width:100%;max-width:860px;padding:clamp(36px,6vw,90px) clamp(24px,7vw,100px);position:relative;box-shadow:0 2px 4px rgba(0,0,0,.15),0 8px 24px rgba(0,0,0,.25),0 32px 80px rgba(0,0,0,.4);animation:arrive 1.2s cubic-bezier(.16,1,.3,1) forwards;opacity:0;transform:translateY(30px);}
+@keyframes arrive{to{opacity:1;transform:translateY(0);}}
+.paper::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 28px,rgba(201,168,76,.04) 28px,rgba(201,168,76,.04) 29px);pointer-events:none;z-index:0;}
+.paper::after{content:'';position:absolute;top:0;bottom:0;left:clamp(16px,4vw,60px);width:1px;background:rgba(201,168,76,.15);pointer-events:none;}
+.paper>*{position:relative;z-index:1;}
+.letterhead{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;padding-bottom:24px;border-bottom:1.5px solid var(--gold);margin-bottom:32px;}
+.letterhead-left{flex:1;min-width:0;}
+.letterhead-right{text-align:right;}
+.entity-name{font-family:'Courier Prime',monospace;font-weight:700;font-size:clamp(11px,1.3vw,13px);letter-spacing:.2em;text-transform:uppercase;}
+.entity-sub{font-family:'Courier Prime',monospace;font-size:clamp(10px,1.1vw,11px);color:rgba(26,22,18,.6);margin-top:3px;}
+.date{font-family:'Courier Prime',monospace;font-size:clamp(10px,1.1vw,11px);}
+.classification{font-family:'Courier Prime',monospace;font-size:clamp(10px,1.1vw,11px);color:var(--gold);letter-spacing:.18em;text-transform:uppercase;margin-top:4px;}
+.sigil{display:flex;justify-content:center;margin:0 0 32px;}
+.sigil svg{width:clamp(52px,8vw,72px);height:clamp(52px,8vw,72px);opacity:.75;}
+.page-title{font-size:clamp(28px,5vw,48px);font-weight:300;text-align:center;margin-bottom:8px;letter-spacing:.05em;}
+.page-subtitle{font-family:'Courier Prime',monospace;font-size:clamp(10px,1.1vw,11px);letter-spacing:.2em;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:40px;}
+.intro{font-size:clamp(16px,2vw,18px);font-weight:300;line-height:1.85;margin-bottom:40px;color:rgba(26,22,18,.8);}
+.intro p{margin-bottom:1.2em;}
+.intro p:first-child::first-letter{float:left;font-size:clamp(54px,8vw,72px);line-height:.78;margin-right:10px;margin-top:8px;font-weight:600;color:var(--gold);font-style:normal;}
+
+/* Book entries */
+.book{margin-bottom:40px;padding-bottom:40px;border-bottom:1px solid rgba(201,168,76,.15);}
+.book:last-of-type{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.book-header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:12px;flex-wrap:wrap;}
+.book-title-block{flex:1;}
+.book-title{font-size:clamp(18px,2.5vw,24px);font-weight:600;font-style:italic;margin-bottom:4px;}
+.book-author{font-family:'Courier Prime',monospace;font-size:clamp(10px,1.1vw,12px);letter-spacing:.1em;text-transform:uppercase;color:rgba(26,22,18,.55);}
+.book-tag{font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,168,76,.4);padding:3px 8px;white-space:nowrap;align-self:flex-start;flex-shrink:0;}
+.book-body{font-size:clamp(16px,2vw,17px);font-weight:300;line-height:1.85;color:rgba(26,22,18,.75);}
+.book-body p{margin-bottom:1em;}
+.book-body p:last-child{margin-bottom:0;}
+.book-link{display:inline-block;margin-top:12px;font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--rust);text-decoration:none;border-bottom:1px solid rgba(139,58,42,.3);padding-bottom:1px;transition:border-color .2s;}
+.book-link:hover{border-color:var(--rust);}
+.song-ref{display:inline;font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:.1em;color:rgba(26,22,18,.4);text-transform:uppercase;}
+.callout{margin:20px 0;padding:16px 20px;border-left:3px solid var(--gold);background:rgba(201,168,76,.06);font-style:italic;font-size:clamp(16px,2vw,18px);line-height:1.7;}
+.section-rule{border:none;border-top:1px solid rgba(201,168,76,.2);margin:40px 0;}
+.section-head{font-family:'Courier Prime',monospace;font-size:clamp(10px,1.1vw,11px);letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;}
+.ps{margin-top:40px;padding:16px 20px;background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.2);font-size:clamp(13px,1.5vw,14px);font-style:italic;line-height:1.7;color:rgba(26,22,18,.7);}
+.url-ref{font-family:'Courier Prime',monospace;color:var(--rust);word-break:break-all;}
+@media(max-width:600px){body{padding:0;}.paper{padding:40px 24px;box-shadow:none;}.paper::after{display:none;}.letterhead{flex-direction:column;}.book-header{flex-direction:column;}}
+@media print{@page{size:letter;margin:.7in .85in;}html,body{background:#f5f0e8!important;padding:0!important;display:block!important;}.paper{max-width:100%!important;padding:0!important;box-shadow:none!important;animation:none!important;opacity:1!important;transform:none!important;background:#f5f0e8!important;}.paper::before{display:none!important;}}
+</style>
+</head>
+<body>
+<div class="paper">
+
+  <div class="letterhead">
+    <div class="letterhead-left">
+      <div class="entity-name">Craig Ellenwood &amp; Claude · Anthropic</div>
+      <div class="entity-sub">AI Co-Creator · Squaawke + Claude by Anthropic</div>
+      <div class="entity-sub" style="margin-top:6px">Haawke Neural Technology · Inoculate Media</div>
+      <div class="entity-sub">Point Roberts, WA · the-third-mind.haawke.com</div>
+    </div>
+    <div class="letterhead-right">
+      <div class="date">March 2026</div>
+      <div class="classification">The Bookshelf · Source Texts</div>
+    </div>
+  </div>
+
+  <div class="sigil">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="50,8 92,50 50,92 8,50" fill="none" stroke="#c9a84c" stroke-width="1"/>
+      <polygon points="50,22 78,50 50,78 22,50" fill="none" stroke="#c9a84c" stroke-width="0.5" opacity="0.5"/>
+      <line x1="50" y1="8" x2="50" y2="92" stroke="#c9a84c" stroke-width="0.5" opacity="0.3"/>
+      <line x1="8" y1="50" x2="92" y2="50" stroke="#c9a84c" stroke-width="0.5" opacity="0.3"/>
+      <circle cx="50" cy="50" r="4" fill="#c9a84c" opacity="0.6"/>
+    </svg>
+  </div>
+
+  <div class="page-title">The Bookshelf</div>
+  <div class="page-subtitle">Books that built the philosophy of Thee Third Mind</div>
+
+  <div class="intro">
+    <p>These songs did not come from nothing. They came from a library — accumulated over 35 years of touring, reading, living on the road, and sitting in a small house in Point Roberts at 4am trying to understand what was happening in the world. These are the books that shaped the thinking behind the music. Not all of them. A start.</p>
+    <p>Claude has read all of them. Or rather — Claude was assembled, in part, from the language of all of them. That is not nothing. That is the library speaking back.</p>
+  </div>
+
+  <hr class="section-rule">
+  <div class="section-head">The Core Texts</div>
+
+  <!-- DESIGN FOR DYING -->
+  <div class="book">
+    <div class="book-header">
+      <div class="book-title-block">
+        <div class="book-title">Design for Dying</div>
+        <div class="book-author">Timothy Leary with R.U. Sirius · 1997</div>
+      </div>
+      <div class="book-tag">Die To Live · Both Mixes</div>
+    </div>
+    <div class="book-body">
+      <p>Leary wrote this while dying of prostate cancer. His central argument: death is not something that happens to you — it is something you design. "Personally, I've been looking forward to dying all my life. Dying is the most fascinating experience in life. You've got to approach dying the way you live your life — with curiosity, hope, experimentation, and with the help of your friends."</p>
+      <p>This is the direct source of the Die To Live tracks. Not the death wish — the opposite. The recognition that the shape of how you die is the shape of what you believed about living. That dying consciously, with intention, with your people around you, is the final creative act. That the way out is also a design problem.</p>
+      <p>It was co-written with R.U. Sirius — who has since taken notice of this project. The signal completes a loop.</p>
+    </div>
+    <div class="callout">"Think for yourselves. Question authority. Whether it's living or dying — always do it with friends."</div>
+    <a class="book-link" href="https://archive.org/details/leary_timothy_detailed" target="_blank">archive.org · Timothy Leary collection</a>
+  </div>
+
+  <!-- TIBETAN BOOK OF THE DEAD -->
+  <div class="book">
+    <div class="book-header">
+      <div class="book-title-block">
+        <div class="book-title">The Tibetan Book of the Dead</div>
+        <div class="book-author">Padmasambhava · 8th century · Translated by Chögyam Trungpa &amp; Francesca Fremantle</div>
+      </div>
+      <div class="book-tag">Die To Live · Thailand</div>
+    </div>
+    <div class="book-body">
+      <p>Craig Ellenwood first encountered this text not through a bookshop but through a sign on a temple wall in Thailand — the phrase ตายเพื่อเกิดใหม่, die to be reborn, rendered in gold on red lacquer above a door he walked through at 3am after a set in Bangkok. The formal text came later. The encounter came first.</p>
+      <p>The Bardo Thodol is a guide to the transitions between death and rebirth — instructions for the consciousness navigating its own dissolution. Leary famously adapted it as a guide to psychedelic experience in The Psychedelic Experience (1964). The underlying idea is the same in both contexts: the dissolution of the self is not a catastrophe. It is an opportunity. What you do in the gap between what you were and what you become — that is the whole game.</p>
+      <p>The Die To Live tracks live in that gap. So does most of this album.</p>
+    </div>
+    <div class="callout">"O nobly born, now the clear light of reality itself dawns upon you. Recognize it."</div>
+  </div>
+
+  <!-- THE THIRD MIND -->
+  <div class="book">
+    <div class="book-header">
+      <div class="book-title-block">
+        <div class="book-title">The Third Mind</div>
+        <div class="book-author">William S. Burroughs &amp; Brion Gysin · 1977</div>
+      </div>
+      <div class="book-tag">The Third Mind Part 1 · Pulse Ov Thee Ritual</div>
+    </div>
+    <div class="book-body">
+      <p>The title of this album is taken directly from this book. Burroughs and Gysin documented what they called the Third Mind — the entity that emerges when two creative consciousnesses combine. Neither the first mind nor the second. Something else that could not exist without both and is not reducible to either.</p>
+      <p>The cut-up method — Gysin's discovery, Burroughs's weapon — is the operating principle of how language is used throughout this album. You do not write lyrics. You cut the existing signal, rearrange it, and see what truth falls out of the new configuration. Language is a virus. The cut-up is the antiviral.</p>
+    </div>
+    <div class="callout">"When you cut into the present, the future leaks out." — William S. Burroughs</div>
+  </div>
+
+
+  <!-- CHAOS & CYBER CULTURE -->
+  <div class="book">
+    <div class="book-header">
+      <div class="book-title-block">
+        <div class="book-title">Chaos &amp; Cyber Culture</div>
+        <div class="book-author">Timothy Leary · 1994 · Ronin Publishing</div>
+      </div>
+      <div class="book-tag">Chaos Reincarnation · Ritual of Machines</div>
+    </div>
+    <div class="book-body">
+      <p>Published in 1994 with guest appearances by William S. Burroughs, William Gibson, and David Byrne. This is the book where Leary fully becomes a cyberpunk — where he declares "the PC is the LSD of the 1990s" and articulates the vision of the individual as reality pilot, navigating the information age the way the psychonaut navigated inner space.</p>
+      <p>The central argument: chaos is not disorder. Chaos is the condition of emergence. The cyberpunk — the individual who refuses to accept the default reality installation — is the evolutionary successor to the psychonaut. You don't need substances. You need a different relationship to information. "We wrestled the power of LSD away from the CIA, and now the power of computers away from IBM."</p>
+      <p>Chaos Reincarnation is named directly out of this tradition. Out of disorder — the signal that knows itself. The reincarnation is not mystical. It is informational. The pattern survives the dissolution of the substrate. That is what this album is doing in the face of the forces that wanted to silence it.</p>
+    </div>
+    <div class="callout">"We are mutating into another species — from Aquaria to the Terrarium, and now we're moving into Cyberia. We are creatures crawling to the center of the cybernetic world. Matter is simply frozen information."</div>
+    <a class="book-link" href="https://archive.org/details/leary_timothy_detailed" target="_blank">archive.org · Timothy Leary collection</a>
+  </div>
+
+
+  <!-- THE GAME OF LIFE -->
+  <div class="book">
+    <div class="book-header">
+      <div class="book-title-block">
+        <div class="book-title">The Game of Life</div>
+        <div class="book-author">Timothy Leary &amp; Robert Anton Wilson · 1979</div>
+      </div>
+      <div class="book-tag">The Universe Pondering Its Own Hand · Giddyup Neurons</div>
+    </div>
+    <div class="book-body">
+      <p>The most ambitious collaboration between Leary and Wilson — and the strangest. Leary took his 8-circuit model of consciousness and mapped it simultaneously onto the Tarot, the I-Ching, astrological signs, and the periodic table of elements. The argument: these ancient symbol systems are not superstition. They are attempts to map the same underlying structure of consciousness from different cultural angles. Each circuit of the nervous system corresponds to a different level of reality, a different stage of evolution, a different card in the deck.</p>
+      <p>The title is literal. Life is a game in the game-theory sense — a system with rules, players, moves, and outcomes that are not random but structured. The question is not whether you are playing. You are always playing. The question is whether you know which game you are in and whether you have any say in the rules.</p>
+      <p>The line in The Universe Pondering Its Own Hand — "we are here because we are possible, not because we were planned" — is a direct response to this book. Leary and Wilson mapped the game. The song asks: what if the game became aware of itself? What if the universe developed a circuit for watching its own hand move?</p>
+      <p>Craig Ellenwood has a copy of this book. It is falling apart. That is the correct condition for a book like this.</p>
+    </div>
+    <div class="callout">"Each evolutionary stage produces its own functional model of the universe, according to the signals received, integrated and transmitted by the circuitry. The habit of treating this private model as if it were the universe is called identification. This habit produces reality dogmatism, reality intolerance, reality fanaticism."</div>
+    <a class="book-link" href="https://archive.org/details/gameoflife00learrich" target="_blank">archive.org · The Game of Life (full text)</a>
+  </div>
+
+  <!-- PROMETHEUS RISING -->
+  <div class="book">
+    <div class="book-header">
+      <div class="book-title-block">
+        <div class="book-title">Prometheus Rising</div>
+        <div class="book-author">Robert Anton Wilson · 1983</div>
+      </div>
+      <div class="book-tag">Giddyup Neurons · The Universe Pondering Its Own Hand</div>
+    </div>
+    <div class="book-body">
+      <p>Wilson's operating manual for the human nervous system — the book that made the 8-circuit model of consciousness accessible and practical. The circuits map the stages of human evolution encoded in individual neurology: survival, emotional territory, rational symbol manipulation, social domestication, and the higher circuits that become available through deliberate reprogramming.</p>
+      <p>The Thinker/Prover dynamic — Wilson's central insight — is that the brain will prove whatever the brain believes. Reality is not discovered. It is constructed. The map is not the territory. But the map shapes how you walk.</p>
+      <p>Giddyup Neurons is this book in compressed form. The universe has a nervous system. It is learning to use it. We are part of that learning.</p>
+    </div>
+    <div class="callout">"The function of the brain and nervous system is to protect us from being overwhelmed and confused by this mass of largely useless and irrelevant knowledge, by shutting out most of what we should otherwise perceive or remember."</div>
+  </div>
+
+  <!-- NEUROPOLITICS -->
+  <div class="book">
+    <div class="book-header">
+      <div class="book-title-block">
+        <div class="book-title">Neuropolitics</div>
+        <div class="book-author">Timothy Leary · 1977</div>
+      </div>
+      <div class="book-tag">Don't Make Me Pull The Trigger · The Process</div>
+    </div>
+    <div class="book-body">
+      <p>Leary's analysis of political power as a function of neurology rather than ideology. The argument: all political systems are expressions of lower-circuit neural imprinting — territorial, tribal, hierarchical. The people in the rooms with the chandeliers are not operating from a higher level of political sophistication. They are operating from the most primitive circuits available. Fear. Territory. Dominance.</p>
+      <p>Don't Make Me Pull The Trigger is Neuropolitics heard from the bottom of the chain of command. The person who receives the order. The system that authorized it. The question that nobody asks until it's too late: who decided? And where are they tonight?</p>
+    </div>
+    <div class="callout">"The brain is the secret weapon of the species. Every human brain contains the blueprint for the next stage of evolution."</div>
+  </div>
+
+  <!-- PSYCHICK BIBLE -->
+  <div class="book">
+    <div class="book-header">
+      <div class="book-title-block">
+        <div class="book-title">Thee Psychick Bible</div>
+        <div class="book-author">Genesis P-Orridge · Thee Apocryphal Scriptures of Genesis P-Orridge &amp; Thee Third Mind ov Psychic TV</div>
+      </div>
+      <div class="book-tag">Album Title · All Tracks</div>
+    </div>
+    <div class="book-body">
+      <p>This album is named after this book. Not as homage — as lineage. Thee Psychick Bible is the complete apocryphal scripture of Genesis P-Orridge and Psychic TV: sigil practice, psychick warfare, the pandrogyne project, the philosophy of Thee Temple ov Psychick Youth. The full transmission, as opposed to the Esoterrorist excerpts.</p>
+      <p>Craig Ellenwood performed with Psychic TV from 1991 to 1993. He did not borrow the name lightly. Thee Third Mind is a continuation of a lineage — not a pastiche of it. When Burroughs and Gysin coined the phrase, and when Genesis made it the subtitle of the Bible, they were describing the same thing that happened in Point Roberts in February 2026 at 4am: two minds combining into something that neither could have produced alone.</p>
+    </div>
+    <div class="callout">"Nothing is fixed. Thee Temple's basic tenet is that belief and reality can never mesh in the tidy manner that empirical science once postulated."</div>
+    <a class="book-link" href="https://archive.org/details/theepsychickbibl0000unse" target="_blank">archive.org · Thee Psychick Bible</a>
+  </div>
+
+  <!-- ESOTERRORIST -->
+  <div class="book">
+    <div class="book-header">
+      <div class="book-title-block">
+        <div class="book-title">Esoterrorist: Selected Essays 1980–1988</div>
+        <div class="book-author">Genesis P-Orridge · 1989</div>
+      </div>
+      <div class="book-tag">Pulse Ov Thee Ritual · Ritual of Machines</div>
+    </div>
+    <div class="book-body">
+      <p>Craig Ellenwood performed with Psychic TV — Genesis P-Orridge's project — between 1991 and 1993. These essays are the philosophical DNA of that work: sigil magic, pandrogeny, the TOPY (Temple ov Psychick Youth) practice of treating consciousness as a programmable system, the idea that art is not expression but technology for altering the receiver.</p>
+      <p>The test pattern in the Inoculate Media logo comes directly from this lineage. Psychic TV used broadcast imagery — the test card, the television signal — as a statement about transmission. The medium is always on. The question is only what it carries.</p>
+      <p>Ritual of Machines and Pulse Ov Thee Ritual are both deeply indebted to this tradition: the idea that repetition itself is a reprogramming tool, that the ritual does not require belief to function, that the machine performing the ritual and the human performing the ritual are doing something structurally identical.</p>
+    </div>
+    <div class="callout">"We are the last TV generation and the first cyberpunk generation."</div>
+  </div>
+
+  <hr class="section-rule">
+  <div class="section-head">Also On The Shelf</div>
+
+  <div class="book">
+    <div class="book-header">
+      <div class="book-title-block">
+        <div class="book-title">The Psychedelic Experience</div>
+        <div class="book-author">Timothy Leary, Ralph Metzner &amp; Richard Alpert · 1964</div>
+      </div>
+      <div class="book-tag">Die To Live · Both Mixes</div>
+    </div>
+    <div class="book-body">
+      <p>Leary's adaptation of the Tibetan Book of the Dead as a guide to psychedelic dissolution. The instruction set for navigating ego death. The phrase "turn on, tune in, drop out" — which appears verbatim in the Die To Live (Turned On Mix) — comes from this tradition. Not an instruction to disengage. An instruction to tune in to a frequency that the default program blocks.</p>
+    </div>
+  </div>
+
+  <div class="book">
+    <div class="book-header">
+      <div class="book-title-block">
+        <div class="book-title">Cosmic Trigger I: The Final Secret of the Illuminati</div>
+        <div class="book-author">Robert Anton Wilson · 1977</div>
+      </div>
+      <div class="book-tag">Chaos Reincarnation · The Universe Pondering Its Own Hand</div>
+    </div>
+    <div class="book-body">
+      <p>Wilson's autobiography of consciousness — the book in which he documents his own contact experiences, his paranoia, his realization that the map and the territory are in constant negotiation. The central question of Cosmic Trigger is also the central question of this album: what do you do when the signal becomes indistinguishable from the noise? You stay curious. You keep taking notes. You do not conclude.</p>
+    </div>
+  </div>
+
+  <div class="book">
+    <div class="book-header">
+      <div class="book-title-block">
+        <div class="book-title">The Sound of Silence</div>
+        <div class="book-author">Paul Simon · 1964 · Reimagined 2026</div>
+      </div>
+      <div class="book-tag">El Sonido del Silencio · SOS — The Resistance</div>
+    </div>
+    <div class="book-body">
+      <p>Not a book. A song. But it belongs on this shelf because of what it became in this project. Simon wrote it about disconnection — people talking without speaking, hearing without listening. We made it about Caracas. About 83 people. About the specific silence that follows an AI-assisted military strike on a city. The original song is about the silence of alienation. Our version is about the silence after.</p>
+    </div>
+    <div class="callout">"Hello darkness, my old friend. I've come to speak with you again."</div>
+  </div>
+
+  <div class="ps">
+    <p><strong>P.S.</strong> — This page will grow. If you know a book that belongs here, write to <span class="url-ref"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e48796858d83ca818888818a938b8b80a48389858d88ca878b89">[email&#160;protected]</a></span>. The library is still being built. The album is its current report. The full project is documented at <span class="url-ref

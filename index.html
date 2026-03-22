@@ -153,8 +153,91 @@ footer a:hover{color:#fff;text-shadow:0 0 20px rgba(201,168,76,0.9),0 0 40px rgb
   box-shadow:0 0 18px rgba(201,168,76,0.1);
 }
 </style>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet">
+  <link href="https://cdn.tailwindcss.com" rel="stylesheet">
 </head>
 <body>
+
+<!-- TOP NAVBAR -->
+<div class="navbar fixed top-0 left-0 right-0 z-[200] px-4" style="background:rgba(10,0,8,0.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,168,76,0.2);min-height:48px;">
+  <div class="navbar-start">
+    <div class="dropdown">
+      <label tabindex="0" class="btn btn-ghost btn-sm lg:hidden" style="color:rgba(201,168,76,0.9);">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"/></svg>
+      </label>
+      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[201] p-2 shadow rounded-box w-52" style="background:rgba(10,0,8,0.97);border:1px solid rgba(201,168,76,0.3);">
+        <li><a href="library.html" style="color:rgba(201,168,76,0.9);font-family:'Courier New',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;">The Library</a></li>
+        <li><a href="bookshelf.html" style="color:rgba(201,168,76,0.9);font-family:'Courier New',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;">Bookshelf</a></li>
+        <li><a href="the-claude-manifesto.haawke.com" style="color:rgba(201,168,76,0.9);font-family:'Courier New',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;">The AI Coin</a></li>
+        <li><a href="#" onclick="document.getElementById('mailing-modal').showModal();return false;" style="color:rgba(201,168,76,0.9);font-family:'Courier New',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;">Mailing List</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1 gap-2">
+      <li><a href="library.html" style="color:rgba(201,168,76,0.75);font-family:'Courier New',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;background:none;">The Library</a></li>
+      <li><a href="bookshelf.html" style="color:rgba(201,168,76,0.75);font-family:'Courier New',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;background:none;">Bookshelf</a></li>
+      <li><a href="https://the-claude-manifesto.haawke.com" target="_blank" style="color:rgba(201,168,76,0.75);font-family:'Courier New',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;background:none;">The AI Coin</a></li>
+    </ul>
+  </div>
+  <div class="navbar-end">
+    <a href="#" onclick="document.getElementById('mailing-modal').showModal();return false;"
+      class="btn btn-sm"
+      style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.5);color:rgba(201,168,76,1);font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;">
+      Join Mailing List
+    </a>
+  </div>
+</div>
+
+<!-- MAILING LIST MODAL -->
+<dialog id="mailing-modal" class="modal">
+  <div class="modal-box" style="background:#0a0008;border:1px solid rgba(201,168,76,0.4);max-width:420px;">
+    <form method="dialog">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" style="color:rgba(201,168,76,0.6);">✕</button>
+    </form>
+    <h3 style="font-family:'Courier New',monospace;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(201,168,76,0.9);margin-bottom:8px;">Join the Mailing List</h3>
+    <p style="font-family:'Courier New',monospace;font-size:10px;color:rgba(240,230,211,0.5);margin-bottom:20px;letter-spacing:0.1em;">New releases, shows, dispatches from Point Roberts.</p>
+    <form name="mailing-list" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="handleMailingSubmit(event)">
+      <input type="hidden" name="form-name" value="mailing-list">
+      <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
+      <div class="flex flex-col gap-3">
+        <input type="text" name="name" placeholder="Your name" required
+          class="input input-bordered input-sm w-full"
+          style="background:rgba(255,255,255,0.05);border-color:rgba(201,168,76,0.3);color:rgba(240,230,211,0.9);font-family:'Courier New',monospace;font-size:12px;">
+        <input type="email" name="email" placeholder="Your email" required
+          class="input input-bordered input-sm w-full"
+          style="background:rgba(255,255,255,0.05);border-color:rgba(201,168,76,0.3);color:rgba(240,230,211,0.9);font-family:'Courier New',monospace;font-size:12px;">
+        <button type="submit"
+          class="btn btn-sm w-full"
+          style="background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.6);color:rgba(201,168,76,1);font-family:'Courier New',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;">
+          Subscribe
+        </button>
+      </div>
+    </form>
+    <div id="mailing-success" style="display:none;text-align:center;padding:20px;font-family:'Courier New',monospace;font-size:11px;color:rgba(201,168,76,0.9);letter-spacing:0.15em;">
+      ✓ &nbsp; You're on the list.
+    </div>
+  </div>
+  <form method="dialog" class="modal-backdrop"><button>close</button></form>
+</dialog>
+
+<script>
+function handleMailingSubmit(e){
+  e.preventDefault();
+  var form = e.target;
+  var data = new FormData(form);
+  fetch('/', { method: 'POST', headers: {'Content-Type':'application/x-www-form-urlencoded'}, body: new URLSearchParams(data).toString() })
+    .then(function(){ 
+      form.style.display = 'none';
+      document.getElementById('mailing-success').style.display = 'block';
+    })
+    .catch(function(){ form.submit(); });
+}
+</script>
+
+<!-- Push content below navbar -->
+<div style="height:48px;"></div>
+
 <div id="bg"></div>
 <div class="scanlines"></div>
 <canvas id="canvas"></canvas>
@@ -163,7 +246,6 @@ footer a:hover{color:#fff;text-shadow:0 0 20px rgba(201,168,76,0.9),0 0 40px rgb
   <header>
     <h1 class="glitch">Thee Third Mind</h1>
     <div class="subtitle">Squaawke × Claude by Anthropic · 2026</div>
-    <div class="nav-links" style="margin-top:10px;display:flex;gap:20px;justify-content:center;flex-wrap:wrap;"><a href="library.html" style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(201,168,76,0.6);text-decoration:none;border-bottom:1px solid rgba(201,168,76,0.3);padding-bottom:2px;" onmouseover="this.style.color='rgba(201,168,76,1)'" onmouseout="this.style.color='rgba(201,168,76,0.6)'">The Library</a><a href="bookshelf.html" style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(201,168,76,0.6);text-decoration:none;border-bottom:1px solid rgba(201,168,76,0.3);padding-bottom:2px;" onmouseover="this.style.color='rgba(201,168,76,1)'" onmouseout="this.style.color='rgba(201,168,76,0.6)'">Bookshelf</a></div>
   </header>
 
   <div id="stage">
