@@ -153,6 +153,49 @@ footer a:hover{color:#fff;text-shadow:0 0 20px rgba(201,168,76,0.9),0 0 40px rgb
   box-shadow:0 0 18px rgba(201,168,76,0.1);
 }
 </style>
+
+<style>
+/* ── Contact drawer — TTM colors ── */
+#ttm-contact-overlay{display:none;position:fixed;inset:0;background:rgba(5,0,4,.8);backdrop-filter:blur(4px);z-index:9800;opacity:0;transition:opacity .35s ease;}
+#ttm-contact-overlay.open{opacity:1;}
+#ttm-contact-drawer{position:fixed;top:0;right:0;width:100%;max-width:520px;height:100vh;background:#0a0008;border-left:1px solid rgba(201,168,76,.25);z-index:9801;transform:translateX(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);overflow-y:auto;}
+#ttm-contact-drawer::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,#0a0008,#c9a84c,#8b3a2a);}
+#ttm-contact-drawer.open{transform:translateX(0);}
+#ttm-drawer-inner{padding:40px 36px 60px;}
+#ttm-drawer-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;}
+#ttm-drawer-eyebrow{font-family:'Courier New',monospace;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:rgba(201,168,76,.7);}
+#ttm-drawer-close{background:none;border:none;color:rgba(240,230,211,.35);cursor:pointer;font-size:18px;padding:4px 8px;transition:color .2s;line-height:1;}
+#ttm-drawer-close:hover{color:rgba(240,230,211,1);}
+#ttm-drawer-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;font-weight:600;font-style:italic;color:rgba(240,230,211,.95);margin-bottom:6px;}
+#ttm-drawer-sub{font-family:'Courier New',monospace;font-size:11px;color:rgba(240,230,211,.35);margin-bottom:28px;line-height:1.6;letter-spacing:.05em;}
+.ttm-d-field-group{margin-bottom:24px;}
+.ttm-d-label{font-family:'Courier New',monospace;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:rgba(201,168,76,.5);display:block;margin-bottom:10px;}
+.ttm-d-pills{display:flex;flex-wrap:wrap;gap:6px;}
+.ttm-d-pill input[type=radio]{display:none;}
+.ttm-d-pill label{display:block;font-family:'Courier New',monospace;font-size:10px;letter-spacing:.08em;padding:6px 12px;border:1px solid rgba(201,168,76,.2);color:rgba(240,230,211,.4);cursor:pointer;transition:all .2s;}
+.ttm-d-pill label:hover{border-color:rgba(201,168,76,.7);color:rgba(201,168,76,.9);}
+.ttm-d-pill input[type=radio]:checked+label{background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.8);color:rgba(201,168,76,1);}
+.ttm-d-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.ttm-d-field{margin-bottom:12px;}
+.ttm-d-field label{font-family:'Courier New',monospace;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:rgba(201,168,76,.5);display:block;margin-bottom:6px;}
+.ttm-d-field input,.ttm-d-field textarea{width:100%;padding:10px 12px;background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.2);color:rgba(240,230,211,.85);font-family:'Courier New',monospace;font-size:12px;outline:none;box-sizing:border-box;resize:none;transition:border-color .2s;}
+.ttm-d-field input:focus,.ttm-d-field textarea:focus{border-color:rgba(201,168,76,.6);}
+.ttm-d-footer{display:flex;justify-content:space-between;align-items:center;margin-top:20px;}
+#ttm-drawer-submit{padding:12px 28px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.55);color:rgba(201,168,76,1);font-family:'Courier New',monospace;font-size:10px;letter-spacing:.25em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+#ttm-drawer-submit:hover{background:rgba(201,168,76,.3);}
+.ttm-d-orcid{font-family:'Courier New',monospace;font-size:9px;color:rgba(201,168,76,.3);text-decoration:none;letter-spacing:.1em;}
+.ttm-d-orcid:hover{color:rgba(201,168,76,.7);}
+#ttm-drawer-success{display:none;text-align:center;padding:40px 0;font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;font-style:italic;color:rgba(201,168,76,.9);}
+
+/* Contact dropdown in nav */
+.ttm-nav-contact-item{position:relative;}
+.ttm-nav-contact-dropdown{display:none;position:absolute;top:calc(100% + 8px);right:0;background:rgba(8,0,6,.97);border:1px solid rgba(201,168,76,.25);min-width:180px;z-index:9200;padding:6px 0;}
+.ttm-nav-contact-dropdown.open{display:block;}
+.ttm-nav-contact-dropdown li{list-style:none;}
+.ttm-nav-contact-dropdown li a{display:block;padding:8px 16px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,230,211,.55);text-decoration:none;transition:all .2s;}
+.ttm-nav-contact-dropdown li a:hover{color:rgba(201,168,76,1);background:rgba(201,168,76,.08);}
+@media(max-width:640px){.ttm-nav-contact-dropdown{position:static;border:none;background:transparent;padding:0;}}
+</style>
 </head>
 <body>
 
@@ -334,6 +377,9 @@ footer a:hover{color:#fff;text-shadow:0 0 20px rgba(201,168,76,0.9),0 0 40px rgb
     <a href="library.html">The Library</a>
     <a href="bookshelf.html">Bookshelf</a>
     <a href="https://the-claude-manifesto.haawke.com" target="_blank">The AI Coin</a>
+    <a href="https://ttm-thirdmindnow23.netlify.app" target="_blank">Store</a>
+    <a href="#" class="ttm-contact-trigger" data-subject="Booking / Shows">Tour</a>
+    <li class="ttm-nav-contact-item" style="list-style:none;"><a href="#" class="ttm-nav-contact-toggle" style="font-family:'Courier New',monospace;font-size:14px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(201,168,76,0.65);text-decoration:none;cursor:pointer;">Contact ▾</a><ul class="ttm-nav-contact-dropdown"><li><a href="#" class="ttm-contact-trigger" data-subject="Booking / Shows">Booking / Shows</a></li><li><a href="#" class="ttm-contact-trigger" data-subject="Music Licensing">Music Licensing</a></li><li><a href="#" class="ttm-contact-trigger" data-subject="Press / Media">Press / Media</a></li><li><a href="#" class="ttm-contact-trigger" data-subject="Collaboration">Collaboration</a></li><li><a href="#" class="ttm-contact-trigger" data-subject="AI / Tech Work">AI / Tech Work</a></li><li><a href="#" class="ttm-contact-trigger" data-subject="General">General</a></li></ul></li>
   </div>
   <a class="nav-cta" href="#" onclick="document.getElementById('ttm-modal-bg').classList.add('open');return false;">Join Mailing List</a>
   <button class="nav-burger" onclick="document.getElementById('ttm-nav-drawer').classList.toggle('open');">☰</button>
@@ -342,6 +388,9 @@ footer a:hover{color:#fff;text-shadow:0 0 20px rgba(201,168,76,0.9),0 0 40px rgb
   <a href="library.html">The Library</a>
   <a href="bookshelf.html">Bookshelf</a>
   <a href="https://the-claude-manifesto.haawke.com" target="_blank">The AI Coin</a>
+  <a href="https://ttm-thirdmindnow23.netlify.app" target="_blank">Store</a>
+  <a href="#" class="ttm-contact-trigger" data-subject="Booking / Shows">Tour / Booking</a>
+  <a href="#" class="ttm-contact-trigger" data-subject="General">Contact</a>
   <a href="#" onclick="document.getElementById('ttm-nav-drawer').classList.remove('open');document.getElementById('ttm-modal-bg').classList.add('open');return false;">Join Mailing List</a>
 </div>
 <div id="ttm-nav-spacer"></div>
@@ -1105,6 +1154,131 @@ vizLoop();
     lastSrc = src;
     credit.style.display = src.indexOf(STARVE) > -1 ? 'block' : 'none';
   }, 300);
+})();
+</script>
+
+<!-- CONTACT OVERLAY + DRAWER -->
+<div id="ttm-contact-overlay"></div>
+<div id="ttm-contact-drawer" aria-hidden="true">
+  <div id="ttm-drawer-inner">
+    <div id="ttm-drawer-header">
+      <div id="ttm-drawer-eyebrow">Squaawke × Claude · Haawke Neural Technology</div>
+      <button id="ttm-drawer-close">✕</button>
+    </div>
+    <div id="ttm-drawer-title">Get in touch.</div>
+    <div id="ttm-drawer-sub">Point Roberts, WA · craig.ellenwood@gmail.com · +1 (360) 804-8550</div>
+
+    <form id="ttm-contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="contact">
+      <p style="display:none;"><label>Don't fill: <input name="bot-field"></label></p>
+
+      <div class="ttm-d-field-group">
+        <span class="ttm-d-label">Regarding</span>
+        <div class="ttm-d-pills">
+          <div class="ttm-d-pill"><input type="radio" name="subject" id="s1" value="Booking / Shows"><label for="s1">Booking / Shows</label></div>
+          <div class="ttm-d-pill"><input type="radio" name="subject" id="s2" value="Music Licensing"><label for="s2">Music Licensing</label></div>
+          <div class="ttm-d-pill"><input type="radio" name="subject" id="s3" value="Press / Media"><label for="s3">Press / Media</label></div>
+          <div class="ttm-d-pill"><input type="radio" name="subject" id="s4" value="Collaboration"><label for="s4">Collaboration</label></div>
+          <div class="ttm-d-pill"><input type="radio" name="subject" id="s5" value="AI / Tech Work"><label for="s5">AI / Tech Work</label></div>
+          <div class="ttm-d-pill"><input type="radio" name="subject" id="s6" value="General" checked><label for="s6">General</label></div>
+        </div>
+      </div>
+
+      <div class="ttm-d-row">
+        <div class="ttm-d-field"><label>Name</label><input type="text" name="name" placeholder="Your name" required></div>
+        <div class="ttm-d-field"><label>Email</label><input type="email" name="email" placeholder="your@email.com" required></div>
+      </div>
+      <div class="ttm-d-field"><label>Message</label><textarea name="message" rows="5" placeholder="Say something..." required></textarea></div>
+
+      <div class="ttm-d-footer">
+        <button type="submit" id="ttm-drawer-submit">Send It</button>
+        <a href="https://orcid.org/0009-0001-6475-5109" target="_blank" class="ttm-d-orcid">ORCID: 0009-0001-6475-5109</a>
+      </div>
+    </form>
+    <div id="ttm-drawer-success">Signal received. We'll be in touch.</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var overlay = document.getElementById('ttm-contact-overlay');
+  var drawer = document.getElementById('ttm-contact-drawer');
+  var closeBtn = document.getElementById('ttm-drawer-close');
+  var form = document.getElementById('ttm-contact-form');
+  var success = document.getElementById('ttm-drawer-success');
+
+  var subjectMap = {
+    'Booking / Shows': 'Let's talk shows.',
+    'Music Licensing': 'License the music.',
+    'Press / Media': 'Press & Media.',
+    'Collaboration': 'Pull up a chair.',
+    'AI / Tech Work': 'Let's build something.',
+    'General': 'Get in touch.'
+  };
+
+  function openDrawer(subject){
+    var s = subject || 'General';
+    document.getElementById('ttm-drawer-title').textContent = subjectMap[s] || 'Get in touch.';
+    document.querySelectorAll('#ttm-contact-form input[type=radio]').forEach(function(r){
+      r.checked = (r.value === s);
+    });
+    overlay.style.display = 'block';
+    requestAnimationFrame(function(){
+      overlay.classList.add('open');
+      drawer.classList.add('open');
+    });
+    document.body.style.overflow = 'hidden';
+    drawer.setAttribute('aria-hidden','false');
+    // close contact dropdown
+    var dd = document.querySelector('.ttm-nav-contact-dropdown');
+    if(dd) dd.classList.remove('open');
+  }
+
+  function closeDrawer(){
+    overlay.classList.remove('open');
+    drawer.classList.remove('open');
+    document.body.style.overflow = '';
+    drawer.setAttribute('aria-hidden','true');
+    setTimeout(function(){ overlay.style.display = 'none'; }, 400);
+  }
+
+  if(closeBtn) closeBtn.addEventListener('click', closeDrawer);
+  if(overlay) overlay.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeDrawer(); });
+
+  // Contact trigger links
+  document.addEventListener('click', function(e){
+    var t = e.target.closest('.ttm-contact-trigger');
+    if(t){ e.preventDefault(); openDrawer(t.getAttribute('data-subject') || 'General'); }
+    // Contact dropdown toggle
+    var toggle = e.target.closest('.ttm-nav-contact-toggle');
+    if(toggle){
+      e.preventDefault(); e.stopPropagation();
+      var dd = toggle.closest('.ttm-nav-contact-item').querySelector('.ttm-nav-contact-dropdown');
+      if(dd) dd.classList.toggle('open');
+    }
+    // Close dropdown on outside click
+    if(!e.target.closest('.ttm-nav-contact-item')){
+      document.querySelectorAll('.ttm-nav-contact-dropdown').forEach(function(d){ d.classList.remove('open'); });
+    }
+  });
+
+  // Form submit
+  if(form) form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var data = new FormData(form);
+    fetch('/', {
+      method: 'POST',
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body: new URLSearchParams(data).toString()
+    }).then(function(){
+      form.style.display = 'none';
+      success.style.display = 'block';
+    }).catch(function(){ form.submit(); });
+  });
+
+  // Expose globally so nav can call it
+  window.ttmOpenContact = openDrawer;
 })();
 </script>
 </body>
