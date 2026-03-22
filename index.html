@@ -1318,5 +1318,32 @@ document.getElementById('ttm-mailing-form').addEventListener('submit', function(
   });
 });
 </script>
+
+<!-- Miguelangelo Rosario model credit -->
+<div id="rosario-credit" style="display:none;position:fixed;bottom:16px;left:16px;z-index:50;font-family:'Courier New',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(201,168,76,0.5);line-height:1.6;pointer-events:none;">
+  3D Model: <a href="https://sketchfab.com/miguelangelo2k" target="_blank" rel="nofollow"
+    style="color:rgba(201,168,76,0.75);pointer-events:all;text-decoration:none;border-bottom:1px solid rgba(201,168,76,0.3);">
+    The Lighthouse at the End of the Universe
+  </a><br>
+  by <a href="https://sketchfab.com/miguelangelo2k" target="_blank" rel="nofollow"
+    style="color:rgba(201,168,76,0.75);pointer-events:all;text-decoration:none;border-bottom:1px solid rgba(201,168,76,0.3);">
+    Miguelangelo Rosario
+  </a> on Sketchfab
+</div>
+<script>
+(function(){
+  var credit = document.getElementById('rosario-credit');
+  if(!credit) return;
+  var lastSrc = '';
+  setInterval(function(){
+    var aud = document.getElementById('aud');
+    if(!aud) return;
+    var src = aud.src || '';
+    if(src === lastSrc) return;
+    lastSrc = src;
+    credit.style.display = src.indexOf('we-must-not-starve.mp3') > -1 ? 'block' : 'none';
+  }, 300);
+})();
+</script>
 </body>
 </html>
