@@ -888,5 +888,84 @@ vizLoop();
   }
   </script>
 
+
+<script>
+(function(){
+  var STARVE = 'we-must-not-starve.mp3';
+  var battleTimer = null;
+  var battleRAF = null;
+  var battleStart = null;
+  var isStarve = false;
+
+  // Create presidente layer
+  var presLayer = document.createElement('div');
+  presLayer.style.cssText = 'position:fixed;inset:0;z-index:1;background-image:url(presidente.jpg);background-size:cover;background-position:center;opacity:0;transition:opacity 3s ease;pointer-events:none;filter:brightness(0.75) saturate(1.2);';
+  document.body.appendChild(presLayer);
+
+  // Create devil battle layer (separate from existing devil bg)
+  var battleDevil = document.createElement('div');
+  battleDevil.style.cssText = 'position:fixed;inset:0;z-index:2;background-image:url(devil.jpg);background-size:cover;background-position:center;opacity:0;pointer-events:none;filter:brightness(0.72) saturate(1.6) contrast(1.1);';
+  document.body.appendChild(battleDevil);
+
+  function stopBattle(){
+    clearTimeout(battleTimer);
+    cancelAnimationFrame(battleRAF);
+    battleStart = null;
+    isStarve = false;
+    // Fade both out
+    presLayer.style.transition = 'opacity 3s ease';
+    battleDevil.style.transition = 'opacity 3s ease';
+    presLayer.style.opacity = '0';
+    battleDevil.style.opacity = '0';
+  }
+
+  function runBattle(timestamp){
+    if(!isStarve) return;
+    if(!battleStart) battleStart = timestamp;
+    var elapsed = (timestamp - battleStart) / 1000; // seconds
+    // 60 second sine wave period — devil rises and falls
+    var period = 60;
+    var sine = (Math.sin((elapsed / period) * 2 * Math.PI) + 1) / 2; // 0 to 1
+    battleDevil.style.opacity = (sine * 0.85).toFixed(3);
+    battleRAF = requestAnimationFrame(runBattle);
+  }
+
+  function onStarveStart(){
+    isStarve = true;
+    // Immediate fade in of presidente (3s)
+    presLayer.style.transition = 'opacity 3s ease';
+    presLayer.style.opacity = '1';
+
+    // After 20 seconds — start devil sine wave battle
+    battleTimer = setTimeout(function(){
+      if(!isStarve) return;
+      battleDevil.style.transition = 'none'; // JS controls this now
+      battleStart = null;
+      battleRAF = requestAnimationFrame(runBattle);
+    }, 20000);
+  }
+
+  var lastSrc = '';
+  setInterval(function(){
+    var aud = document.getElementById('aud');
+    if(!aud) return;
+    var src = aud.src || '';
+    if(src === lastSrc) return;
+    lastSrc = src;
+    if(src.indexOf(STARVE) > -1){
+      onStarveStart();
+    } else if(isStarve){
+      stopBattle();
+    }
+  }, 300);
+
+  var aud = document.getElementById('aud');
+  if(aud){
+    aud.addEventListener('ended', function(){
+      if(isStarve) stopBattle();
+    });
+  }
+})();
+</script>
 </body>
 </html>
