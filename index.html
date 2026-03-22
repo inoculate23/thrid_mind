@@ -860,5 +860,26 @@ vizLoop();
 
 })();
 </script>
+
+<div id="model-credit" style="display:none;position:fixed;bottom:60px;left:16px;z-index:50;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(201,168,76,0.5);pointer-events:none;">
+  3D model: <a href="https://sketchfab.com/miguelangelo2k" target="_blank" rel="nofollow" style="color:rgba(201,168,76,0.7);pointer-events:all;">The lighthouse at the end of the Universe</a> by <a href="https://sketchfab.com/miguelangelo2k" target="_blank" rel="nofollow" style="color:rgba(201,168,76,0.7);pointer-events:all;">Miguelangelo Rosario</a>
+</div>
+
+<script>
+(function(){
+  var credit = document.getElementById('model-credit');
+  if(!credit) return;
+  var STARVE = 'we-must-not-starve.mp3';
+  var lastSrc = '';
+  setInterval(function(){
+    var aud = document.getElementById('aud');
+    if(!aud) return;
+    var src = aud.src || '';
+    if(src === lastSrc) return;
+    lastSrc = src;
+    credit.style.display = src.indexOf(STARVE) > -1 ? 'block' : 'none';
+  }, 300);
+})();
+</script>
 </body>
 </html>
