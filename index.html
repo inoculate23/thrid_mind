@@ -163,6 +163,7 @@ footer a:hover{color:#fff;text-shadow:0 0 20px rgba(201,168,76,0.9),0 0 40px rgb
   <header>
     <h1 class="glitch">Thee Third Mind</h1>
     <div class="subtitle">Squaawke × Claude by Anthropic · 2026</div>
+    <div class="nav-links" style="margin-top:10px;display:flex;gap:20px;justify-content:center;flex-wrap:wrap;"><a href="library.html" style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(201,168,76,0.6);text-decoration:none;border-bottom:1px solid rgba(201,168,76,0.3);padding-bottom:2px;" onmouseover="this.style.color='rgba(201,168,76,1)'" onmouseout="this.style.color='rgba(201,168,76,0.6)'">The Library</a><a href="bookshelf.html" style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(201,168,76,0.6);text-decoration:none;border-bottom:1px solid rgba(201,168,76,0.3);padding-bottom:2px;" onmouseover="this.style.color='rgba(201,168,76,1)'" onmouseout="this.style.color='rgba(201,168,76,0.6)'">Bookshelf</a></div>
   </header>
 
   <div id="stage">
@@ -790,6 +791,73 @@ vizLoop();
     var a = document.getElementById('aud');
     if(a) a.addEventListener('ended', function(){ if(isStarve) onStarveEnd(); });
   });
+})();
+</script>
+
+<script>
+(function(){
+  var aud = document.getElementById('aud');
+  if(!aud) return;
+
+  function fadeIn(duration){
+    aud.volume = 0;
+    var steps = 40;
+    var stepMs = (duration * 1000) / steps;
+    var step = 0;
+    var iv = setInterval(function(){
+      step++;
+      aud.volume = Math.min(step / steps, 1);
+      if(step >= steps){ clearInterval(iv); aud.volume = 1; }
+    }, stepMs);
+  }
+
+  function fadeOut(duration, cb){
+    var startVol = aud.volume;
+    var steps = 40;
+    var stepMs = (duration * 1000) / steps;
+    var step = 0;
+    var iv = setInterval(function(){
+      step++;
+      aud.volume = Math.max(startVol * (1 - step / steps), 0);
+      if(step >= steps){
+        clearInterval(iv);
+        aud.volume = 0;
+        if(cb) cb();
+      }
+    }, stepMs);
+  }
+
+  // Intercept all track clicks to add fade
+  var tracks = document.querySelectorAll('.pl-item');
+  tracks.forEach(function(item){
+    item.addEventListener('click', function(e){
+      if(e.target.classList.contains('buy-btn')) return;
+      if(!aud.paused && aud.volume > 0){
+        // Fade out current, then switch
+        e.stopImmediatePropagation();
+        fadeOut(0.5, function(){
+          // The main player will handle loading — just fade in after
+          setTimeout(function(){ fadeIn(2); }, 200);
+        });
+        return;
+      }
+      setTimeout(function(){ fadeIn(2); }, 100);
+    }, true); // capture phase — runs before main player
+  });
+
+  // Fade in on initial play button
+  var btn = document.getElementById('play-btn');
+  if(btn){
+    btn.addEventListener('click', function(){
+      if(aud.paused) setTimeout(function(){ fadeIn(2); }, 50);
+    });
+  }
+
+  // Fade in on auto-advance (ended event fires before next track loads)
+  aud.addEventListener('play', function(){
+    if(aud.volume < 0.1) fadeIn(2);
+  });
+
 })();
 </script>
 </body>
