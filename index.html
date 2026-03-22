@@ -804,7 +804,7 @@ vizLoop();
 
 <script>
 (function(){
-  const DEVIL_TRACKS = ['el-diablo.mp3','DEVIL.mp3','we-must-not-starve.mp3'];
+  const DEVIL_TRACKS = ['el-diablo.mp3','DEVIL.mp3'];
   const bg = document.getElementById('bg');
   if(!bg) return;
   const devilLayer = document.createElement('div');
@@ -889,62 +889,104 @@ vizLoop();
   </script>
 
 
+
 <script>
+/* ── WE MUST NOT STARVE — full visual sequence ────────────────────────────
+   0s       : presidente fades in (3s)
+   20s      : devil sine wave battle begins (60s period, devil fights presidente)
+   1:20     : chapel iframe starts 60s fade in
+   song end : devil fades out, chapel stays
+──────────────────────────────────────────────────────────────────────── */
 (function(){
   var STARVE = 'we-must-not-starve.mp3';
+  var isStarve = false;
   var battleTimer = null;
   var battleRAF = null;
   var battleStart = null;
-  var isStarve = false;
+  var chapelTimer = null;
+  var chapelFadeInterval = null;
 
-  // Create presidente layer
+  // ── Layers ──
   var presLayer = document.createElement('div');
-  presLayer.style.cssText = 'position:fixed;inset:0;z-index:1;background-image:url(presidente.jpg);background-size:cover;background-position:center;opacity:0;transition:opacity 3s ease;pointer-events:none;filter:brightness(0.75) saturate(1.2);';
+  presLayer.id = 'pres-layer';
+  presLayer.style.cssText = 'position:fixed;inset:0;z-index:1;background-image:url(presidente.jpg);background-size:cover;background-position:center;opacity:0;transition:opacity 3s ease;pointer-events:none;filter:brightness(0.8) saturate(1.1);';
   document.body.appendChild(presLayer);
 
-  // Create devil battle layer (separate from existing devil bg)
-  var battleDevil = document.createElement('div');
-  battleDevil.style.cssText = 'position:fixed;inset:0;z-index:2;background-image:url(devil.jpg);background-size:cover;background-position:center;opacity:0;pointer-events:none;filter:brightness(0.72) saturate(1.6) contrast(1.1);';
-  document.body.appendChild(battleDevil);
+  var devilLayer = document.createElement('div');
+  devilLayer.id = 'starve-devil-layer';
+  devilLayer.style.cssText = 'position:fixed;inset:0;z-index:2;background-image:url(devil.jpg);background-size:cover;background-position:center;opacity:0;pointer-events:none;filter:brightness(0.65) saturate(1.8) contrast(1.2);mix-blend-mode:multiply;';
+  document.body.appendChild(devilLayer);
 
-  function stopBattle(){
-    clearTimeout(battleTimer);
-    cancelAnimationFrame(battleRAF);
-    battleStart = null;
-    isStarve = false;
-    // Fade both out
-    presLayer.style.transition = 'opacity 3s ease';
-    battleDevil.style.transition = 'opacity 3s ease';
-    presLayer.style.opacity = '0';
-    battleDevil.style.opacity = '0';
-  }
+  // Chapel layer — sits on top, wins at the end
+  var chapelLayer = document.getElementById('chapel-layer');
 
-  function runBattle(timestamp){
-    if(!isStarve) return;
-    if(!battleStart) battleStart = timestamp;
-    var elapsed = (timestamp - battleStart) / 1000; // seconds
-    // 60 second sine wave period — devil rises and falls
+  // ── Battle sine wave ──
+  function runBattle(ts){
+    if(!isStarve){ devilLayer.style.opacity = '0'; return; }
+    if(!battleStart) battleStart = ts;
+    var elapsed = (ts - battleStart) / 1000;
     var period = 60;
-    var sine = (Math.sin((elapsed / period) * 2 * Math.PI) + 1) / 2; // 0 to 1
-    battleDevil.style.opacity = (sine * 0.85).toFixed(3);
+    // Sine: starts at 0, rises to peak, falls back — repeating
+    var sine = (Math.sin((elapsed / period) * 2 * Math.PI - Math.PI/2) + 1) / 2;
+    devilLayer.style.opacity = (sine * 0.9).toFixed(3);
     battleRAF = requestAnimationFrame(runBattle);
   }
 
+  // ── Chapel fade in over 60s ──
+  function fadeChapelIn(){
+    if(!chapelLayer) return;
+    clearInterval(chapelFadeInterval);
+    var steps = 120; // 60s / 0.5s steps
+    var stepMs = 500;
+    var current = 0;
+    chapelFadeInterval = setInterval(function(){
+      current += 1/steps;
+      if(current >= 1){ current = 1; clearInterval(chapelFadeInterval); }
+      chapelLayer.style.opacity = current.toFixed(3);
+    }, stepMs);
+  }
+
+  // ── Start sequence ──
   function onStarveStart(){
     isStarve = true;
-    // Immediate fade in of presidente (3s)
+
+    // Step 1: presidente fades in immediately
     presLayer.style.transition = 'opacity 3s ease';
     presLayer.style.opacity = '1';
 
-    // After 20 seconds — start devil sine wave battle
+    // Step 2: devil battle starts at 20s
     battleTimer = setTimeout(function(){
       if(!isStarve) return;
-      battleDevil.style.transition = 'none'; // JS controls this now
       battleStart = null;
+      devilLayer.style.transition = 'none';
       battleRAF = requestAnimationFrame(runBattle);
     }, 20000);
+
+    // Step 3: chapel fades in at 1:20 over 60s
+    chapelTimer = setTimeout(function(){
+      if(!isStarve) return;
+      fadeChapelIn();
+    }, 80000);
   }
 
+  // ── End sequence: devil out, chapel stays ──
+  function onStarveEnd(){
+    isStarve = false;
+    clearTimeout(battleTimer);
+    clearTimeout(chapelTimer);
+    clearInterval(chapelFadeInterval);
+    cancelAnimationFrame(battleRAF);
+
+    // Presidente and devil fade out
+    presLayer.style.transition = 'opacity 4s ease';
+    devilLayer.style.transition = 'opacity 4s ease';
+    presLayer.style.opacity = '0';
+    devilLayer.style.opacity = '0';
+
+    // Chapel stays at whatever opacity it reached
+  }
+
+  // ── Track watcher ──
   var lastSrc = '';
   setInterval(function(){
     var aud = document.getElementById('aud');
@@ -955,16 +997,15 @@ vizLoop();
     if(src.indexOf(STARVE) > -1){
       onStarveStart();
     } else if(isStarve){
-      stopBattle();
+      onStarveEnd();
     }
   }, 300);
 
-  var aud = document.getElementById('aud');
-  if(aud){
-    aud.addEventListener('ended', function(){
-      if(isStarve) stopBattle();
-    });
-  }
+  // Also on song end
+  document.addEventListener('DOMContentLoaded', function(){
+    var a = document.getElementById('aud');
+    if(a) a.addEventListener('ended', function(){ if(isStarve) onStarveEnd(); });
+  });
 })();
 </script>
 </body>
