@@ -58,7 +58,7 @@ body::after{content:'';position:fixed;inset:0;z-index:9999;background-image:url(
 header{width:100%;text-align:center;padding:64px 20px 0;}
 h1{font-family:'UnifrakturMaguntia',serif;font-size:clamp(50px,9vw,110px);color:var(--pale);line-height:1;text-shadow:0 0 30px rgba(201,168,76,0.6),0 0 80px rgba(139,0,0,0.4);animation:tg 5s ease-in-out infinite alternate;}
 @keyframes tg{from{text-shadow:0 0 20px rgba(201,168,76,0.4),0 0 60px rgba(139,0,0,0.3);}to{text-shadow:0 0 55px rgba(201,168,76,1),0 0 110px rgba(139,0,0,0.6),0 0 160px rgba(204,0,170,0.3);}}
-.subtitle{font-family:'Cinzel',serif;font-size:clamp(18px,2.8vw,34px);letter-spacing:4px;text-transform:uppercase;margin-top:14px;font-weight:400;color:#ffffff;animation:subtitleGlow 8s linear infinite;text-shadow:1px 2px 4px rgba(0,0,0,0.9);}
+.subtitle{font-family:'Cinzel',serif;font-size:clamp(18px,2.8vw,34px);letter-spacing:4px;text-transform:uppercase;margin-top:14px;font-weight:400;color:var(--pale);animation:subtitleGlow 8s linear infinite;text-shadow:0 0 30px rgba(201,168,76,0.6),0 2px 4px rgba(0,0,0,0.9);}
 @keyframes subtitleGlow{
   0%   { text-shadow: 1px 2px 4px rgba(0,0,0,0.9), 0 0 10px rgba(201,168,76,0.5); }
   16%  { text-shadow: 1px 2px 4px rgba(0,0,0,0.9), 0 0 10px rgba(60,210,120,0.5); }
@@ -218,7 +218,7 @@ footer a:hover{color:#fff;text-shadow:0 0 20px rgba(201,168,76,0.9),0 0 40px rgb
   font-size:16px;
   letter-spacing:0.2em;
   text-transform:uppercase;
-  color:rgba(201,168,76,0.8);
+  color:#ffffff;
   white-space:nowrap;
   text-decoration:none;
 }
@@ -232,12 +232,12 @@ footer a:hover{color:#fff;text-shadow:0 0 20px rgba(201,168,76,0.9),0 0 40px rgb
   font-size:16px;
   letter-spacing:0.18em;
   text-transform:uppercase;
-  color:rgba(201,168,76,0.95);
+  color:#ffffff;
   text-decoration:none;
   white-space:nowrap;
   transition:color 0.2s;
 }
-#ttm-nav .nav-links a:hover{color:#fff;}
+#ttm-nav .nav-links a:hover{color:#c9a84c;text-shadow:0 0 8px rgba(201,168,76,0.6);}
 #ttm-nav .nav-cta{
   font-family:'Courier New',monospace;
   font-size:14px;
