@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Store — Thee Third Mind · Squaawke × Claude</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{background:#0a0008;min-height:100vh;font-family:'Cormorant Garamond',serif;color:rgba(240,230,211,0.9);}
+#ttm-nav{position:fixed;top:0;left:0;right:0;height:52px;background:rgba(8,0,6,0.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,168,76,0.25);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:9000;box-sizing:border-box;}
+#ttm-nav a{font-family:'Courier New',monospace;font-size:13px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(201,168,76,0.75);text-decoration:none;transition:color 0.2s;}
+#ttm-nav a:hover{color:rgba(201,168,76,1);}
+.store-header{text-align:center;padding:100px 20px 48px;border-bottom:1px solid rgba(201,168,76,0.15);}
+.store-title{font-size:clamp(32px,6vw,56px);font-weight:300;letter-spacing:0.05em;margin-bottom:12px;}
+.store-sub{font-family:'Courier New',monospace;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(201,168,76,0.6);}
+.store-body{max-width:1100px;margin:0 auto;padding:40px 20px 80px;}
+.store-intro{text-align:center;font-size:clamp(16px,2vw,18px);font-weight:300;line-height:1.85;color:rgba(240,230,211,0.6);max-width:640px;margin:0 auto 48px;}
+
+/* Override Stripe table colors to fit dark theme */
+stripe-pricing-table{
+  --stripe-pricing-table-background-color: transparent;
+}
+</style>
+</head>
+<body>
+
+<div id="ttm-nav">
+  <a href="index.html">← Back to Album</a>
+  <a href="https://the-claude-manifesto.haawke.com" target="_blank">The AI Coin</a>
+</div>
+
+<div class="store-header">
+  <div class="store-title">The Store</div>
+  <div class="store-sub">Squaawke × Claude by Anthropic · 2026</div>
+</div>
+
+<div class="store-body">
+  <p class="store-intro">Individual tracks, full album download, and packages. Every purchase helps fund the next record — made by a musician and an AI in a small house in Point Roberts, Washington.</p>
+
+  <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
+  <stripe-pricing-table
+    pricing-table-id="prctbl_1TDqzqGl715hGhcRq5lmbhuC"
+    publishable-key="pk_live_51R2HiwGl715hGhcRCkg0OumBb4UcE8hY9Lj1882ovqVVboyeVZserYYos7kDh8MZA5XpsEiqxuGTgl0RsV6pIQDX00pI5pozfh">
+  </stripe-pricing-table>
+</div>
+
+</body>
+</html>
