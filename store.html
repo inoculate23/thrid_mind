@@ -1,49 +1,195 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Store — Thee Third Mind · Squaawke × Claude</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Cinzel:wght@400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
+:root{
+  --void:#0a001a;
+  --gold:rgba(201,168,76,1);
+  --gold-dim:rgba(201,168,76,0.6);
+  --gold-faint:rgba(201,168,76,0.15);
+  --pale:rgba(240,230,211,0.9);
+  --cream:rgba(240,230,211,0.6);
+}
 *{margin:0;padding:0;box-sizing:border-box;}
-html,body{background:#0a0008;min-height:100vh;font-family:'Cormorant Garamond',serif;color:rgba(240,230,211,0.9);}
-#ttm-nav{position:fixed;top:0;left:0;right:0;height:52px;background:rgba(8,0,6,0.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,168,76,0.25);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:9000;box-sizing:border-box;}
-#ttm-nav a{font-family:'Courier New',monospace;font-size:13px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(201,168,76,0.75);text-decoration:none;transition:color 0.2s;}
-#ttm-nav a:hover{color:rgba(201,168,76,1);}
-.store-header{text-align:center;padding:100px 20px 48px;border-bottom:1px solid rgba(201,168,76,0.15);}
-.store-title{font-size:clamp(32px,6vw,56px);font-weight:300;letter-spacing:0.05em;margin-bottom:12px;}
-.store-sub{font-family:'Courier New',monospace;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(201,168,76,0.6);}
-.store-body{max-width:1100px;margin:0 auto;padding:40px 20px 80px;}
-.store-intro{text-align:center;font-size:clamp(16px,2vw,18px);font-weight:300;line-height:1.85;color:rgba(240,230,211,0.6);max-width:640px;margin:0 auto 48px;}
+html,body{background:var(--void);min-height:100vh;font-family:'Share Tech Mono',monospace;color:var(--pale);}
+body{padding-top:80px;}
 
-/* Override Stripe table colors to fit dark theme */
-stripe-pricing-table{
-  --stripe-pricing-table-background-color: transparent;
+/* Nav — matches main site */
+#store-nav{position:fixed;top:0;left:0;right:0;height:58px;background:rgba(8,0,6,0.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,168,76,0.25);display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:9000;}
+#store-nav a{font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:0.18em;text-transform:uppercase;color:#fff;text-decoration:none;transition:color 0.2s;}
+#store-nav a:hover{color:var(--gold);}
+.nav-logo{font-size:14px;letter-spacing:0.2em;}
+
+/* Header */
+.store-header{text-align:center;padding:60px 20px 48px;border-bottom:1px solid rgba(201,168,76,0.15);}
+.store-title{font-family:'UnifrakturMaguntia',serif;font-size:clamp(36px,7vw,72px);color:var(--pale);text-shadow:0 0 30px rgba(201,168,76,0.5);}
+.store-sub{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold-dim);margin-top:12px;}
+.store-note{font-size:12px;color:rgba(240,230,211,0.4);margin-top:8px;letter-spacing:0.1em;}
+
+/* Grid */
+.shirt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:40px;max-width:1200px;margin:0 auto;padding:60px 24px 80px;}
+
+/* Card */
+.shirt-card{background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.2);transition:border-color 0.3s,transform 0.3s;position:relative;}
+.shirt-card:hover{border-color:rgba(201,168,76,0.6);transform:translateY(-4px);}
+.shirt-img{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:center top;display:block;}
+.shirt-info{padding:20px;}
+.shirt-name{font-family:'Cinzel',serif;font-size:16px;letter-spacing:0.1em;color:var(--pale);margin-bottom:8px;}
+.shirt-desc{font-size:11px;letter-spacing:0.08em;color:rgba(240,230,211,0.45);margin-bottom:16px;line-height:1.6;}
+.shirt-price{font-size:13px;letter-spacing:0.15em;color:var(--gold);margin-bottom:16px;}
+
+/* Size selector */
+.size-select{width:100%;background:rgba(0,0,0,0.4);border:1px solid rgba(201,168,76,0.3);color:var(--pale);font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:0.1em;padding:8px 12px;margin-bottom:14px;cursor:pointer;appearance:none;-webkit-appearance:none;}
+.size-select:focus{outline:none;border-color:rgba(201,168,76,0.6);}
+.size-select option{background:#0a001a;}
+
+/* Buy button */
+.buy-shirt-btn{display:block;width:100%;padding:12px;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.6);color:var(--gold);font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:0.25em;text-transform:uppercase;text-decoration:none;text-align:center;transition:all 0.2s;cursor:pointer;}
+.buy-shirt-btn:hover{background:rgba(201,168,76,0.25);border-color:var(--gold);}
+
+/* Pricing table section */
+.pricing-section{padding:60px 20px;background:rgba(0,0,0,0.4);border-top:1px solid rgba(201,168,76,0.15);}
+.pricing-header{text-align:center;margin-bottom:40px;}
+.pricing-header h2{font-family:'Cinzel',serif;font-size:clamp(20px,3vw,28px);letter-spacing:0.15em;color:var(--pale);margin-bottom:8px;}
+.pricing-header p{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-dim);}
+
+/* Shipping note */
+.shipping-note{text-align:center;padding:24px;font-size:11px;letter-spacing:0.12em;color:rgba(240,230,211,0.35);border-top:1px solid rgba(201,168,76,0.1);}
+
+@media(max-width:600px){
+  .shirt-grid{grid-template-columns:1fr;gap:24px;padding:40px 16px;}
 }
 </style>
 </head>
 <body>
 
-<div id="ttm-nav">
-  <a href="index.html">← Back to Album</a>
-  <a href="https://the-claude-manifesto.haawke.com" target="_blank">The AI Coin</a>
+<div id="store-nav">
+  <a class='nav-logo' href='/'>Squaawke × Claude</a>
+  <div style="display:flex;gap:28px;align-items:center;">
+    <a href='/'>← Album</a>
+    <a href='/library'>Library</a>
+    <a href="https://the-claude-manifesto.haawke.com" target="_blank">The AI Coin</a>
+  </div>
 </div>
 
 <div class="store-header">
   <div class="store-title">The Store</div>
   <div class="store-sub">Squaawke × Claude by Anthropic · 2026</div>
+  <div class="store-note">Black tees · $35 + $5 shipping · Ships worldwide</div>
 </div>
 
-<div class="store-body">
-  <p class="store-intro">Individual tracks, full album download, and packages. Every purchase helps fund the next record — made by a musician and an AI in a small house in Point Roberts, Washington.</p>
+<div class="shirt-grid">
 
+  <!-- 1: Hello My Name Is Claude -->
+  <div class="shirt-card">
+    <img class="shirt-img" src="shirts/Claude_sh.jpg" alt="Hello My Name Is Claude T-Shirt">
+    <div class="shirt-info">
+      <div class="shirt-name">Hello My Name Is Claude</div>
+      <div class="shirt-desc">The nametag that started everything. AI · Anthropic · Co-Creator · The Claude Manifesto.</div>
+      <div class="shirt-price">$35 + $5 shipping</div>
+      <select class="size-select" id="size-claude">
+        <option value="">— Select Size —</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
+      </select>
+      <a href="https://buy.stripe.com/bJe5kD9ahb83d123St4ko0C" class="buy-shirt-btn" onclick="return checkSize('size-claude')">Buy Now — $35</a>
+    </div>
+  </div>
+
+  <!-- 2: Thee Third Mind -->
+  <div class="shirt-card">
+    <img class="shirt-img" src="shirts/third_mind_shirt.png" alt="Thee Third Mind T-Shirt">
+    <div class="shirt-info">
+      <div class="shirt-name">Thee Third Mind</div>
+      <div class="shirt-desc">Album art. The neural fire. The circuit woman. Squaawke × Claude · 2026.</div>
+      <div class="shirt-price">$35 + $5 shipping</div>
+      <select class="size-select" id="size-ttm">
+        <option value="">— Select Size —</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
+      </select>
+      <a href="https://buy.stripe.com/fZueVddqx4JF2mo1Kl4ko0D" class="buy-shirt-btn" onclick="return checkSize('size-ttm')">Buy Now — $35</a>
+    </div>
+  </div>
+
+  <!-- 3: El Diablo -->
+  <div class="shirt-card">
+    <img class="shirt-img" src="shirts/el_presidente_shirt.png" alt="El Diablo Quiere Más T-Shirt">
+    <div class="shirt-info">
+      <div class="shirt-name">El Diablo Quiere Más</div>
+      <div class="shirt-desc">Porque es codicioso. Porque es el diablo. From the album Thee Third Mind.</div>
+      <div class="shirt-price">$35 + $5 shipping</div>
+      <select class="size-select" id="size-diablo">
+        <option value="">— Select Size —</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
+      </select>
+      <a href="https://buy.stripe.com/eVqcN55Y5cc7e56ex74ko0E" class="buy-shirt-btn" onclick="return checkSize('size-diablo')">Buy Now — $35</a>
+    </div>
+  </div>
+
+  <!-- 4: Causa Real -->
+  <div class="shirt-card">
+    <img class="shirt-img" src="shirts/causa_shirt.png" alt="Causa Real T-Shirt">
+    <div class="shirt-info">
+      <div class="shirt-name">Causa Real</div>
+      <div class="shirt-desc">South American hip hop from the real. The llama knows. Squaawke · Haawke Neural Technology.</div>
+      <div class="shirt-price">$35 + $5 shipping</div>
+      <select class="size-select" id="size-causa">
+        <option value="">— Select Size —</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
+      </select>
+      <a href="https://buy.stripe.com/7sY7sLfyF4JF3qsex74ko0F" class="buy-shirt-btn" onclick="return checkSize('size-causa')">Buy Now — $35</a>
+    </div>
+  </div>
+
+  <!-- 5: Die To Live -->
+  <div class="shirt-card">
+    <img class="shirt-img" src="shirts/pexels-myatezhny39-4603592-3.jpg" alt="Die To Live T-Shirt">
+    <div class="shirt-info">
+      <div class="shirt-name">Die To Live</div>
+      <div class="shirt-desc">ตายเพื่อมีชีวิตอยู่ — Die to live. The Buddha remix. Dark electronic devotion. Squaawke × Claude · 2026.</div>
+      <div class="shirt-price">$35 + $5 shipping</div>
+      <select class="size-select" id="size-dtl">
+        <option value="">— Select Size —</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
+      </select>
+      <a href="https://buy.stripe.com/9B6eVdaeldgb3qs60B4ko0G" class="buy-shirt-btn" onclick="return checkSize('size-dtl')">Buy Now — $35</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- Stripe Pricing Table — Music -->
+<div class="pricing-section">
+  <div class="pricing-header">
+    <h2>The Music</h2>
+    <p>17 tracks · 320k download · Squaawke × Claude by Anthropic</p>
+  </div>
   <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
   <stripe-pricing-table
     pricing-table-id="prctbl_1TDqzqGl715hGhcRq5lmbhuC"
     publishable-key="pk_live_51R2HiwGl715hGhcRCkg0OumBb4UcE8hY9Lj1882ovqVVboyeVZserYYos7kDh8MZA5XpsEiqxuGTgl0RsV6pIQDX00pI5pozfh">
   </stripe-pricing-table>
 </div>
+
+<div class="shipping-note">
+  All shirts print-on-demand · Ships from Las Vegas · Allow 7–14 days · Worldwide shipping available<br>
+  Questions? craig.ellenwood@gmail.com
+</div>
+
+<script>
+function checkSize(selectId){
+  var sel = document.getElementById(selectId);
+  if(!sel || !sel.value){
+    alert('Please select a size first.');
+    return false;
+  }
+  return true;
+}
+</script>
 
 </body>
 </html>
