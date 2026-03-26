@@ -97,9 +97,284 @@
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 1.5rem;
   }
+  #ttm-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 58px;
+  background: rgba(8,0,6,0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(201,168,76,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 9000;
+  box-sizing: border-box;
+}
+
+#ttm-nav .nav-logo {
+  font-family: 'Courier New', monospace;
+  font-size: 16px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #ffffff;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+/* Main links (ul) */
+#ttm-nav .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Individual link */
+#ttm-nav .nav-links a {
+  font-family: 'Courier New', monospace;
+  font-size: 16px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+/* ----------------------------------------------------- */
+/*  Navigation – updated for the new structure           */
+/* ----------------------------------------------------- */
+
+#ttm-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 58px;
+  background: rgba(8,0,6,0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(201,168,76,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 9000;
+  box-sizing: border-box;
+}
+
+#ttm-nav .nav-logo {
+  font-family: 'Courier New', monospace;
+  font-size: 16px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #ffffff;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+/* Main links (ul) */
+#ttm-nav .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Individual link */
+#ttm-nav .nav-links a {
+  font-family: 'Courier New', monospace;
+  font-size: 16px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+
+#ttm-nav .nav-links a:hover {
+  color: #c9a84c;
+  text-shadow: 0 0 8px rgba(201,168,76,0.6);
+}
+
+/* Contact dropdown */
+.nav-contact {
+  position: relative;
+}
+
+.nav-contact-toggle {
+  cursor: pointer;
+  user-select: none;
+}
+
+.nav-contact-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: rgba(8,0,6,0.97);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 0 0 4px 4px;
+  padding: 8px 0;
+  display: none;
+  flex-direction: column;
+  min-width: 180px;
+  z-index: 9001;
+  list-style: none;
+  margin: 0;
+}
+
+.nav-contact-dropdown li a {
+  display: block;
+  padding: 6px 16px;
+  color: rgba(201,168,76,0.95);
+  text-decoration: none;
+  font-family: 'Courier New', monospace;
+  font-size: 16px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: background 0.2s;
+}
+
+.nav-contact-dropdown li a:hover {
+  background: rgba(201,168,76,0.1);
+}
+
+.nav-contact.open .nav-contact-dropdown {
+  display: flex;
+}
+
+/* CTA button */
+.nav-cta {
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(201,168,76,0.2);
+  border: 1px solid rgba(201,168,76,0.8);
+  padding: 6px 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.nav-cta:hover {
+  background: rgba(201,168,76,0.2);
+  color: #fff;
+}
+
+/* Burger icon for mobile */
+.nav-burger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: rgba(201,168,76,0.8);
+  font-size: 20px;
+  line-height: 1;
+}
+
+/* Mobile drawer (unchanged) */
+#ttm-nav-drawer {
+  display: none;
+  position: fixed;
+  top: 52px;
+  left: 0;
+  right: 0;
+  background: rgba(8,0,6,0.97);
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+  padding: 16px 24px 20px;
+  z-index: 8999;
+  flex-direction: column;
+  gap: 14px;
+}
+
+#ttm-nav-drawer.open {
+  display: flex;
+}
+
+/* Spacer to keep content below the fixed nav */
+#ttm-nav-spacer {
+  height: 58px;
+}
+
+/* Mobile overrides */
+@media (max-width: 640px) {
+  #ttm-nav .nav-links,
+  #ttm-nav .nav-cta {
+    display: none;
+  }
+
+  #ttm-nav .nav-burger {
+    display: block;
+  }
+}
+
 </style>
 </head>
 <body>
+  <nav id="ttm-nav">
+  <!-- Logo -->
+  <a class="nav-logo" href="/">Squaawke × Claude</a>
+
+  <!-- Main links (list) -->
+  <ul class="nav-links">
+    <li><a href="library.html">The Library</a></li>
+    <li><a href="bookshelf.html">Bookshelf</a></li>
+    <li><a href="https://the-claude-manifesto.haawke.com" target="_blank">The AI Coin</a></li>
+    <li><a href="store.html">Store</a></li>
+
+    <!-- Contact dropdown -->
+    <li class="nav-contact">
+      <a href="#" class="nav-contact-toggle" aria-haspopup="true" aria-expanded="false">
+        Contact ▾
+      </a>
+      <ul class="nav-contact-dropdown">
+        <li><a href="#" class="ttm-contact-trigger" data-subject="Booking / Shows">Booking / Shows</a></li>
+        <li><a href="#" class="ttm-contact-trigger" data-subject="Music Licensing">Music Licensing</a></li>
+        <li><a href="#" class="ttm-contact-trigger" data-subject="Press / Media">Press / Media</a></li>
+        <li><a href="#" class="ttm-contact-trigger" data-subject="Collaboration">Collaboration</a></li>
+        <li><a href="#" class="ttm-contact-trigger" data-subject="AI / Tech Work">AI / Tech Work</a></li>
+        <li><a href="#" class="ttm-contact-trigger" data-subject="General">General</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <!-- Call‑to‑action & burger -->
+  <div class="nav-actions">
+    <a class="nav-cta" href="#" onclick="document.getElementById('ttm-modal-bg').classList.add('open');return false;">
+      Join Mailing List
+    </a>
+    <button class="nav-burger" aria-label="Open menu" onclick="document.getElementById('ttm-nav-drawer').classList.toggle('open');">
+      ☰
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile drawer (unchanged) -->
+<div id="ttm-nav-drawer">
+  <a href="evoluton.html">Evolution</a>
+  <a href="library.html">The Library</a>
+  <a href="bookshelf.html">Bookshelf</a>
+  <a href="https://the-claude-manifesto.haawke.com" target="_blank">The AI Coin</a>
+  <a href="store.html">Store</a>
+  <a href="#" class="ttm-contact-trigger" data-subject="Booking / Shows">Tour / Booking</a>
+  <a href="#" class="ttm-contact-trigger" data-subject="General">Contact</a>
+  <a href="#" onclick="document.getElementById('ttm-nav-drawer').classList.remove('open');document.getElementById('ttm-modal-bg').classList.add('open');return false;">
+    Join Mailing List
+  </a>
+</div>
+
+<!-- Spacer to keep content below the fixed nav -->
+<div id="ttm-nav-spacer"></div>
   <div class="hash-container">
     <div class="hash-string">SHA-256 · 8A3D4E2B…C9F0A1B28A3D4E2B · F6E5D4C3 · A2B1C0D9 · 1F2E3D4C · 5B6A7988 · 9C8B7A65 · 4D3C2B1A · C9F0A1B2</div>
     <div class="verified-status"><span>✓ verified live</span> · v1.0 · 2026-03-26</div>
