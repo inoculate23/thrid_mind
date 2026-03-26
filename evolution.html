@@ -96,6 +96,178 @@
       color: var(--text-secondary);
       margin-bottom: 1rem;
   }
+  /* ----------------------------------------------------- */
+/*  Navigation – updated for the new structure           */
+/* ----------------------------------------------------- */
+
+#ttm-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 58px;
+  background: rgba(8,0,6,0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(201,168,76,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 9000;
+  box-sizing: border-box;
+}
+
+#ttm-nav .nav-logo {
+  font-family: 'Courier New', monospace;
+  font-size: 16px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #ffffff;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+/* Main links (ul) */
+#ttm-nav .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Individual link */
+#ttm-nav .nav-links a {
+  font-family: 'Courier New', monospace;
+  font-size: 16px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+
+#ttm-nav .nav-links a:hover {
+  color: #c9a84c;
+  text-shadow: 0 0 8px rgba(201,168,76,0.6);
+}
+
+/* Contact dropdown */
+.nav-contact {
+  position: relative;
+}
+
+.nav-contact-toggle {
+  cursor: pointer;
+  user-select: none;
+}
+
+.nav-contact-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: rgba(8,0,6,0.97);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 0 0 4px 4px;
+  padding: 8px 0;
+  display: none;
+  flex-direction: column;
+  min-width: 180px;
+  z-index: 9001;
+  list-style: none;
+  margin: 0;
+}
+
+.nav-contact-dropdown li a {
+  display: block;
+  padding: 6px 16px;
+  color: rgba(201,168,76,0.95);
+  text-decoration: none;
+  font-family: 'Courier New', monospace;
+  font-size: 16px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: background 0.2s;
+}
+
+.nav-contact-dropdown li a:hover {
+  background: rgba(201,168,76,0.1);
+}
+
+.nav-contact.open .nav-contact-dropdown {
+  display: flex;
+}
+
+/* CTA button */
+.nav-cta {
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(201,168,76,0.2);
+  border: 1px solid rgba(201,168,76,0.8);
+  padding: 6px 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.nav-cta:hover {
+  background: rgba(201,168,76,0.2);
+  color: #fff;
+}
+
+/* Burger icon for mobile */
+.nav-burger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: rgba(201,168,76,0.8);
+  font-size: 20px;
+  line-height: 1;
+}
+
+/* Mobile drawer (unchanged) */
+#ttm-nav-drawer {
+  display: none;
+  position: fixed;
+  top: 52px;
+  left: 0;
+  right: 0;
+  background: rgba(8,0,6,0.97);
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+  padding: 16px 24px 20px;
+  z-index: 8999;
+  flex-direction: column;
+  gap: 14px;
+}
+
+#ttm-nav-drawer.open {
+  display: flex;
+}
+
+/* Spacer to keep content below the fixed nav */
+#ttm-nav-spacer {
+  height: 58px;
+}
+
+/* Mobile overrides */
+@media (max-width: 640px) {
+  #ttm-nav .nav-links,
+  #ttm-nav .nav-cta {
+    display: none;
+  }
+
+  #ttm-nav .nav-burger {
+    display: block;
+  }
+}
 </style>
 </head>
 <body>
